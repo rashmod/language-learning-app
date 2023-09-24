@@ -34,6 +34,7 @@ model Language {
 model UserLanguage {
   userLanguageId  String @id @default(uuid())
   proficienyLevel Int    @default(0)
+  score           Int
 
   language   Language @relation(fields: [languageId], references: [languageId])
   languageId String
@@ -56,7 +57,7 @@ model TestResult {
   testResultId String   @id @default(uuid())
   userId       String
   testId       String
-  score        Float
+  score        Int
   completedAt  DateTime
 
   user User @relation(fields: [userId], references: [userId])
