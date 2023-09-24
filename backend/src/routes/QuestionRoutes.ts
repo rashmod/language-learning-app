@@ -6,7 +6,7 @@ import {
 } from '../controllers/QuestionControllers';
 import catchAsyncError from '../utilities/catchAsyncError';
 
-// get the languageId and testId from app.use
+// get the testId from app.use
 const router = Router({ mergeParams: true });
 
 router.get('/', catchAsyncError(getAllQuestions));

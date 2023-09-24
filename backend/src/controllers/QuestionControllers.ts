@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 
 import { prisma } from '../db/prisma';
-import { DuplicateResourceError, NotFoundError } from '../utilities/Errors';
+import { NotFoundError } from '../utilities/Errors';
 
 // @desc Get all questions of a test
-// @route GET /api/languages/:languageId/tests/:testId/questions
+// @route GET /api/tests/:testId/questions
 // @access user
 export const getAllQuestions = async (req: Request, res: Response) => {
-	const { languageId, testId } = req.params;
+	const { testId } = req.params;
 
 	const questions = await prisma.question.findMany({ where: { testId } });
 
@@ -19,10 +19,10 @@ export const getAllQuestions = async (req: Request, res: Response) => {
 };
 
 // @desc Get single question
-// @route GET /api/languages/:languageId/tests/:testId/questions/:questionId
+// @route GET /api/tests/:testId/questions/:questionId
 // @access user
 export const getQuestion = async (req: Request, res: Response) => {
-	const { testId, languageId, questionId } = req.params;
+	const { testId, questionId } = req.params;
 
 	const question = await prisma.question.findUnique({
 		where: {
@@ -40,10 +40,10 @@ export const getQuestion = async (req: Request, res: Response) => {
 };
 
 // @desc Create question
-// @route POST /api/languages/:languageId/tests/:testId/questions
+// @route POST /api/tests/:testId/questions
 // @access admin
 export const createQuestion = async (req: Request, res: Response) => {
-	const { languageId, testId } = req.params;
+	const { testId } = req.params;
 	const {
 		questionText,
 		difficulty,

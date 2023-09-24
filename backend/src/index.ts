@@ -6,6 +6,7 @@ import UserRoutes from './routes/UserRoutes';
 import LanguageRoutes from './routes/LanguageRoutes';
 import TestRoutes from './routes/TestRoutes';
 import QuestionRoutes from './routes/QuestionRoutes';
+import OptionRoutes from './routes/OptionRoutes';
 import errorHandler from './middlewares/errorHandler';
 
 dotenv.config();
@@ -20,7 +21,8 @@ app.use(express.json());
 app.use('/api/users', UserRoutes);
 app.use('/api/languages', LanguageRoutes);
 app.use('/api/languages/:languageId/tests', TestRoutes);
-app.use('/api/languages/:languageId/tests/:testId/questions', QuestionRoutes);
+app.use('/api/tests/:testId/questions', QuestionRoutes);
+app.use('/api/questions/:questionId/options', OptionRoutes);
 
 app.use(errorHandler);
 
