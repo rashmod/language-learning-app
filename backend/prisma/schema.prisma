@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userId         String @id @default(uuid())
+  username       String
+  email          String @unique
+  hashedPassword String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  languages   UserLanguage[]
+  testResults TestResult[]
+}
+
+model Language {
+  languageId   String @id @default(uuid())
+  languageName String
+
+  tests Test[]
+  users UserLanguage[]
+}
+
+model UserLanguage {
+  userLanguageId  String @id @default(uuid())
+  proficienyLevel Int    @default(0)
+
+  language   Language @relation(fields: [languageId], references: [languageId])
+  languageId String
+
+  user   User   @relation(fields: [userId], references: [userId])
+  userId String
+}
+
+model Test {
+  testId   String @id @default(uuid())
+  testName String
+
+  Language    Language?    @relation(fields: [languageId], references: [languageId])
+  languageId  String?
+  testResults TestResult[]
+  questions   Question[]
+}
+
+model TestResult {
+  testResultId String   @id @default(uuid())
+  userId       String
+  testId       String
+  score        Float
+  completedAt  DateTime
+
+  user User @relation(fields: [userId], references: [userId])
+  test Test @relation(fields: [testId], references: [testId])
+}
+
+model Question {
+  questionId   String   @id @default(uuid())
+  questionText String
+  difficulty   Int
+  createdAt    DateTime @default(now())
+
+  test    Test     @relation(fields: [testId], references: [testId])
+  testId  String
+  options Option[]
+}
+
+model Option {
+  optionId   String  @id @default(uuid())
+  optionText String
+  isCorrect  Boolean @default(false)
+
+  question   Question @relation(fields: [questionId], references: [questionId])
+  questionId String
+}
