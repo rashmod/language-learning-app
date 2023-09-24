@@ -1,65 +1,54 @@
 import { Request, Response } from 'express';
 
 import { prisma } from '../db/prisma';
+import { DuplicateEmailError, NotFoundError } from '../utilities/Errors';
 
 // @desc Get all users
 // @route GET /api/users
 // @access public
 export const getAllUsers = async (req: Request, res: Response) => {
-	try {
-		const users = await prisma.user.findMany();
+	const users = await prisma.user.findMany();
 
-		res.status(200).json({
-			success: true,
-			count: users.length,
-			data: users,
-		});
-	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: 'Failed to get all users' });
-	}
+	res.status(200).json({
+		success: true,
+		count: users.length,
+		data: users,
+	});
 };
 
 // @desc Get single user
 // @route GET /api/users/:id
 // @access user
 export const getUser = async (req: Request, res: Response) => {
-	try {
-		const { userId } = req.params;
-		const user = await prisma.user.findUnique({
-			where: {
-				userId,
-			},
-		});
+	const { userId } = req.params;
+	const user = await prisma.user.findUnique({
+		where: {
+			userId,
+		},
+	});
 
-		if (!user) return res.status(404).json({ error: 'Failed to get user' });
+	if (!user) throw new NotFoundError('The requested user was not found');
 
-		res.status(200).json({ success: true, data: user });
-	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: 'Failed to get user' });
-	}
+	res.status(200).json({ success: true, data: user });
 };
 
 // @desc Create user
 // @route POST /api/users
 // @access public
 export const createUser = async (req: Request, res: Response) => {
-	try {
-		console.log(req.body);
-		const { username, email, hashedPassword } = req.body;
+	const { username, email, hashedPassword } = req.body;
 
-		const user = await prisma.user.create({
-			data: {
-				username,
-				email,
-				hashedPassword,
-			},
-		});
+	const emailExists = await prisma.user.findUnique({ where: { email } });
 
-		res.status(200).json({ success: true, data: user });
-	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: 'Failed to create user' });
-	}
+	if (emailExists) throw new DuplicateEmailError();
+
+	const user = await prisma.user.create({
+		data: {
+			username,
+			email,
+			hashedPassword,
+		},
+	});
+
+	res.status(200).json({ success: true, data: user });
 };

@@ -4,12 +4,13 @@ import {
 	getAllUsers,
 	getUser,
 } from '../controllers/UserController';
+import catchAsyncError from '../utilities/catchAsyncError';
 
 const router = Router();
 
-router.get('/', getAllUsers);
-router.post('/', createUser);
+router.get('/', catchAsyncError(getAllUsers));
+router.post('/', catchAsyncError(createUser));
 
-router.get('/:userId', getUser);
+router.get('/:userId', catchAsyncError(getUser));
 
 export default router;
