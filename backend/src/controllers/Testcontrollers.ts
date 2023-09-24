@@ -27,7 +27,6 @@ export const getTest = async (req: Request, res: Response) => {
 	const test = await prisma.test.findUnique({
 		where: {
 			testId,
-			languageId,
 		},
 	});
 
@@ -43,13 +42,9 @@ export const createTest = async (req: Request, res: Response) => {
 	const { languageId } = req.params;
 	const { testName, maxScore } = req.body;
 
-	console.log(req.params);
-
 	const testExists = await prisma.test.findFirst({
 		where: { languageId, testName },
 	});
-
-	console.log(testExists);
 
 	if (testExists)
 		throw new DuplicateResourceError(

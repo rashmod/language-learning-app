@@ -3,7 +3,7 @@ import {
 	createTest,
 	getAllTests,
 	getTest,
-} from '../controllers/Testcontrollers';
+} from '../controllers/TestControllers';
 import catchAsyncError from '../utilities/catchAsyncError';
 
 // get the languageId from app.use
