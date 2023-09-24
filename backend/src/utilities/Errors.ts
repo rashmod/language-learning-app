@@ -19,10 +19,10 @@ export class NotFoundError extends CustomError {
 	}
 }
 
-export class DuplicateEmailError extends CustomError {
+export class DuplicateResourceError extends CustomError {
 	constructor(
-		message = 'A user with this email already exists. Please choose different email address.'
+		message = 'A resource with this value already exists. Please choose different value.'
 	) {
-		super(message, 409, 'DuplicateEmailError');
+		super(message, 409, 'DuplicateResourceError');
 	}
 }

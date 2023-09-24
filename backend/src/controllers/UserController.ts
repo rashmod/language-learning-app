@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import { prisma } from '../db/prisma';
-import { DuplicateEmailError, NotFoundError } from '../utilities/Errors';
+import { DuplicateResourceError, NotFoundError } from '../utilities/Errors';
 
 // @desc Get all users
 // @route GET /api/users
@@ -40,7 +40,10 @@ export const createUser = async (req: Request, res: Response) => {
 
 	const emailExists = await prisma.user.findUnique({ where: { email } });
 
-	if (emailExists) throw new DuplicateEmailError();
+	if (emailExists)
+		throw new DuplicateResourceError(
+			'A user with this email already exists. Please choose different email address.'
+		);
 
 	const user = await prisma.user.create({
 		data: {
