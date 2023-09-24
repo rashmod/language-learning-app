@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import connectDB from './db/prisma';
 import UserRoutes from './routes/UserRoutes';
 import LanguageRoutes from './routes/LanguageRoutes';
+import TestRoutes from './routes/TestRoutes';
 import errorHandler from './middlewares/errorHandler';
 
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use('/api/users', UserRoutes);
 app.use('/api/languages', LanguageRoutes);
+app.use('/api/languages/:languageId/tests', TestRoutes);
 
 app.use(errorHandler);
 

@@ -17,7 +17,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 };
 
 // @desc Get single user
-// @route GET /api/users/:id
+// @route GET /api/users/:userId
 // @access user
 export const getUser = async (req: Request, res: Response) => {
 	const { userId } = req.params;

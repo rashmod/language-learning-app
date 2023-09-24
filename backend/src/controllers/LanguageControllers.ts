@@ -17,8 +17,8 @@ export const getAllLanguages = async (req: Request, res: Response) => {
 };
 
 // @desc Get single language
-// @route GET /api/languages/:id
-// @access language
+// @route GET /api/languages/:languageId
+// @access public
 export const getLanguage = async (req: Request, res: Response) => {
 	const { languageId } = req.params;
 	const language = await prisma.language.findUnique({
@@ -35,7 +35,7 @@ export const getLanguage = async (req: Request, res: Response) => {
 
 // @desc Create language
 // @route POST /api/languages
-// @access public
+// @access admin
 export const createLanguage = async (req: Request, res: Response) => {
 	const { languageName } = req.body;
 

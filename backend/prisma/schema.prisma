@@ -46,6 +46,7 @@ model UserLanguage {
 model Test {
   testId   String @id @default(uuid())
   testName String
+  maxScore Int
 
   Language    Language?    @relation(fields: [languageId], references: [languageId])
   languageId  String?
