@@ -1,3 +1,4 @@
+import MultiStepComponent, { TMultiStepComponent } from './MultiStepComponent';
 import Option, { TOption } from './Option';
 
 export type TQuestion = {
@@ -14,9 +15,14 @@ const Question = ({
 	difficulty,
 	options,
 	index,
-}: Omit<TQuestion, 'createdAt' | 'questionId' | 'testId'> & {
-	index: number;
-}) => {
+	goToNextPage,
+	goToPreviousPage,
+	isFirstPage,
+	isLastPage,
+}: Omit<TQuestion, 'createdAt' | 'questionId' | 'testId'> &
+	TMultiStepComponent & {
+		index: number;
+	}) => {
 	return (
 		<form className='relative'>
 			<p className='mb-4 text-xl font-semibold'>
@@ -36,6 +42,12 @@ const Question = ({
 					/>
 				))}
 			</ul>
+			<MultiStepComponent
+				goToNextPage={goToNextPage}
+				goToPreviousPage={goToPreviousPage}
+				isFirstPage={isFirstPage}
+				isLastPage={isLastPage}
+			/>
 		</form>
 	);
 };

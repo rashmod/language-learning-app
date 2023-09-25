@@ -1,12 +1,17 @@
 import axios from 'axios';
+import { TQuestion } from '../components/Question';
 
-export const getTestQuestions = async (languageId: string, testId: string) => {
+export const getTestQuestions = async (
+	languageId: string,
+	testId: string
+): Promise<{ success: boolean; count: number; data: TQuestion[] }> => {
+	// todo change return type to all possible results
 	const res = await axios.get(
 		`${
 			import.meta.env.VITE_BACKEND_BASE_URL
 		}/api/languages/${languageId}/tests/${testId}/questions`
 	);
-	const { data } = await res.data;
+	const data = await res.data;
 	return data;
 };
 
