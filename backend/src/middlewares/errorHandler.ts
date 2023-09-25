@@ -10,6 +10,7 @@ export default function errorHandler(
 ) {
 	console.log('===========ERROR===========');
 	console.log(err);
+	console.log('===========ERROR===========');
 
 	if (err instanceof CustomError) {
 		return handleCustomError(err, res);
