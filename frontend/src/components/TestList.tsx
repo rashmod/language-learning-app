@@ -46,7 +46,13 @@ const TestList = () => {
 		<div className='grid gap-y-4'>
 			<div>Tests for {languageName}</div>
 			{testsData.map((item: TTest) => (
-				<Test key={item.testId} {...item} />
+				<Test
+					key={item.testId}
+					languageId={item.languageId}
+					maxScore={item.maxScore}
+					testId={item.testId}
+					testName={item.testName}
+				/>
 			))}
 		</div>
 	);
