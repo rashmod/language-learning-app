@@ -34,9 +34,15 @@ change question list dynamically based on user performance
 app.use('/api/users', UserRoutes);
 app.use('/api/languages', LanguageRoutes);
 app.use('/api/languages/:languageId/tests', TestRoutes);
-app.use('/api/tests/:testId/questions', QuestionRoutes);
-app.use('/api/questions/:questionId/options', OptionRoutes);
-app.use('/api/testResults', TestResultRoutes);
+app.use('/api/languages/:languageId/tests/:testId/questions', QuestionRoutes);
+app.use(
+	'/api/languages/:languageId/tests/:testId/questions/:questionId/options',
+	OptionRoutes
+);
+app.use(
+	'/api/users/:userId/languages/:languageId/tests/:testId/testResults',
+	TestResultRoutes
+);
 
 app.use(errorHandler);
 

@@ -9,6 +9,13 @@ import { DuplicateResourceError, NotFoundError } from '../utilities/Errors';
 export const getAllTests = async (req: Request, res: Response) => {
 	const { languageId } = req.params;
 
+	const language = await prisma.language.findUnique({
+		where: { languageId },
+	});
+
+	if (!language)
+		throw new NotFoundError('The requested language was not found');
+
 	const tests = await prisma.test.findMany({ where: { languageId } });
 
 	res.status(200).json({
@@ -23,6 +30,13 @@ export const getAllTests = async (req: Request, res: Response) => {
 // @access user
 export const getTest = async (req: Request, res: Response) => {
 	const { testId, languageId } = req.params;
+
+	const language = await prisma.language.findUnique({
+		where: { languageId },
+	});
+
+	if (!language)
+		throw new NotFoundError('The requested language was not found');
 
 	const test = await prisma.test.findUnique({
 		where: {
@@ -41,6 +55,13 @@ export const getTest = async (req: Request, res: Response) => {
 export const createTest = async (req: Request, res: Response) => {
 	const { languageId } = req.params;
 	const { testName, maxScore } = req.body;
+
+	const language = await prisma.language.findUnique({
+		where: { languageId },
+	});
+
+	if (!language)
+		throw new NotFoundError('The requested language was not found');
 
 	const testExists = await prisma.test.findFirst({
 		where: { languageId, testName },

@@ -4,10 +4,17 @@ import { prisma } from '../db/prisma';
 import { NotFoundError } from '../utilities/Errors';
 
 // @desc Get all questions of a test
-// @route GET /api/tests/:testId/questions
+// @route GET /api/languages/:languageId/tests/:testId/questions
 // @access user
 export const getAllQuestions = async (req: Request, res: Response) => {
-	const { testId } = req.params;
+	const { languageId, testId } = req.params;
+
+	const language = await prisma.language.findUnique({
+		where: { languageId },
+	});
+
+	if (!language)
+		throw new NotFoundError('The requested language was not found');
 
 	const questions = await prisma.question.findMany({ where: { testId } });
 
@@ -19,10 +26,23 @@ export const getAllQuestions = async (req: Request, res: Response) => {
 };
 
 // @desc Get single question
-// @route GET /api/tests/:testId/questions/:questionId
+// @route GET /api/languages/:languageId/tests/:testId/questions/:questionId
 // @access user
 export const getQuestion = async (req: Request, res: Response) => {
-	const { testId, questionId } = req.params;
+	const { languageId, testId, questionId } = req.params;
+
+	const language = await prisma.language.findUnique({
+		where: { languageId },
+	});
+
+	if (!language)
+		throw new NotFoundError('The requested language was not found');
+
+	const test = await prisma.test.findUnique({
+		where: { testId },
+	});
+
+	if (!test) throw new NotFoundError('The requested test was not found');
 
 	const question = await prisma.question.findUnique({
 		where: {
@@ -40,10 +60,10 @@ export const getQuestion = async (req: Request, res: Response) => {
 };
 
 // @desc Create question
-// @route POST /api/tests/:testId/questions
+// @route POST /api/languages/:languageId/tests/:testId/questions
 // @access admin
 export const createQuestion = async (req: Request, res: Response) => {
-	const { testId } = req.params;
+	const { languageId, testId } = req.params;
 	const {
 		questionText,
 		difficulty,
@@ -53,6 +73,19 @@ export const createQuestion = async (req: Request, res: Response) => {
 		difficulty: number;
 		options: { optionText: string; isCorrect: boolean }[];
 	} = req.body;
+
+	const language = await prisma.language.findUnique({
+		where: { languageId },
+	});
+
+	if (!language)
+		throw new NotFoundError('The requested language was not found');
+
+	const test = await prisma.test.findUnique({
+		where: { testId },
+	});
+
+	if (!test) throw new NotFoundError('The requested test was not found');
 
 	const question = await prisma.question.create({
 		data: {
