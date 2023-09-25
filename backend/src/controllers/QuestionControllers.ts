@@ -16,7 +16,10 @@ export const getAllQuestions = async (req: Request, res: Response) => {
 	if (!language)
 		throw new NotFoundError('The requested language was not found');
 
-	const questions = await prisma.question.findMany({ where: { testId } });
+	const questions = await prisma.question.findMany({
+		where: { testId },
+		include: { options: true },
+	});
 
 	res.status(200).json({
 		success: true,
