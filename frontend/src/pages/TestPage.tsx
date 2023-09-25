@@ -6,7 +6,7 @@ import Question from '../components/Question';
 
 const TestPage = () => {
 	const {
-		state: { languageId, testId },
+		state: { languageId, testId, testName },
 	} = useLocation();
 
 	const { data, isLoading, isError } = useQuery({
@@ -31,16 +31,32 @@ const TestPage = () => {
 	const currentQuestion = data.data[currentStepIndex];
 
 	return (
-		<Question
-			questionText={currentQuestion.questionText}
-			difficulty={currentQuestion.difficulty}
-			options={currentQuestion.options}
-			index={currentStepIndex}
-			goToNextPage={goToNextPage}
-			goToPreviousPage={goToPreviousPage}
-			isFirstPage={isFirstPage}
-			isLastPage={isLastPage}
-		/>
+		<div>
+			<div className='flex justify-between mb-4'>
+				<h1 className='text-lg font-semibold text-gray-400'>
+					{testName}
+				</h1>
+				<button
+					type='button'
+					className='px-3 py-1 text-xs transition-all duration-200 border border-gray-600 rounded hover:text-white hover:bg-red-600 hover:border-red-600'>
+					End Test
+				</button>
+			</div>
+			{data.count > 0 ? (
+				<Question
+					questionText={currentQuestion.questionText}
+					difficulty={currentQuestion.difficulty}
+					options={currentQuestion.options}
+					index={currentStepIndex}
+					goToNextPage={goToNextPage}
+					goToPreviousPage={goToPreviousPage}
+					isFirstPage={isFirstPage}
+					isLastPage={isLastPage}
+				/>
+			) : (
+				<div>No Questions added to this test yet.</div>
+			)}
+		</div>
 	);
 };
 
