@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "TestResult" ALTER COLUMN "completedAt" SET DEFAULT CURRENT_TIMESTAMP;

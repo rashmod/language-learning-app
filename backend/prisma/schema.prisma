@@ -59,7 +59,7 @@ model TestResult {
   userId       String
   testId       String
   score        Int
-  completedAt  DateTime
+  completedAt  DateTime @default(now())
 
   user User @relation(fields: [userId], references: [userId])
   test Test @relation(fields: [testId], references: [testId])
