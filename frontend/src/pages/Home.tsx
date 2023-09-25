@@ -1,5 +1,11 @@
+import TestList from '../components/TestList';
+
 const Home = () => {
-	return <div>Home</div>;
+	return (
+		<div>
+			<TestList />
+		</div>
+	);
 };
 
 export default Home;
