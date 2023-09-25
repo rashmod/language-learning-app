@@ -16,7 +16,7 @@ const Test = ({ testName, maxScore, testId, languageId }: TTest) => {
 			</div>
 			<Link
 				to={`/test/${testName}`}
-				state={{ languageId, testId }}
+				state={{ languageId, testId, testName }}
 				className='px-4 py-1 transition-all duration-200 border rounded hover:text-white hover:bg-black'>
 				Start Test
 			</Link>

@@ -18,6 +18,7 @@ const MultiStepComponent = ({
 			<div className='flex w-full gap-8'>
 				<div className='flex justify-end grow'>
 					<button
+						type='button'
 						onClick={goToPreviousPage}
 						className={cn(
 							'border border-gray-600 py-1 px-3 rounded hover:text-white hover:bg-black transition-all duration-200 w-24',
@@ -31,6 +32,7 @@ const MultiStepComponent = ({
 				</div>
 				<div>
 					<button
+						type='button'
 						className={cn(
 							'border border-gray-600 py-1 px-3 rounded hover:text-white hover:bg-black transition-all duration-200 w-28',
 							{
@@ -43,6 +45,7 @@ const MultiStepComponent = ({
 				</div>
 				<div className='grow'>
 					<button
+						type='button'
 						onClick={goToNextPage}
 						className={cn(
 							'border border-gray-600 py-1 px-3 rounded hover:text-white hover:bg-black transition-all duration-200 w-28',

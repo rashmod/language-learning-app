@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getTestQuestions } from '../api/questions';
 import useMultiStep from '../hooks/useMultiStep';
 import Question from '../components/Question';
+import useUnsavedChangesWarning from '../hooks/useUnsavedChangesWarning';
 
 const TestPage = () => {
 	const {
@@ -23,6 +24,8 @@ const TestPage = () => {
 		isFirstPage,
 		isLastPage,
 	} = useMultiStep(length);
+
+	useUnsavedChangesWarning(true);
 
 	if (isLoading) return <h1>Loading...</h1>;
 

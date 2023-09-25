@@ -32,13 +32,14 @@ const Question = ({
 				{difficulty} marks
 			</span>
 			<ul className='grid w-full gap-2'>
-				{options.map((option) => (
+				{options.map((option, index) => (
 					<Option
 						key={option.optionId}
 						optionId={option.optionId}
 						optionText={option.optionText}
 						isCorrect={option.isCorrect}
 						questionId={option.questionId}
+						index={index}
 					/>
 				))}
 			</ul>
