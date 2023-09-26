@@ -1,13 +1,6 @@
 import { useNavigationState } from '../context/navigationContext';
 import cn from '../utilities/cn';
 
-export type TMultiStepComponent = {
-	goToNextPage: () => void;
-	goToPreviousPage: () => void;
-	isFirstPage: boolean;
-	isLastPage: boolean;
-};
-
 const MultiStepComponent = ({
 	submitHandler,
 }: {

@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import TestPage from './pages/TestPage';
+import { NavigationContextProvider } from './context/navigationContext';
 
 function App() {
 	return (
@@ -11,7 +12,14 @@ function App() {
 				<Navbar />
 				<Routes>
 					<Route path='/' element={<Home />} />
-					<Route path='/test/:testName' element={<TestPage />} />
+					<Route
+						path='/test/:testName'
+						element={
+							<NavigationContextProvider>
+								<TestPage />
+							</NavigationContextProvider>
+						}
+					/>
 				</Routes>
 			</div>
 		</h1>

@@ -1,13 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { getTests } from '../api/tests';
-import Test, { TTest } from './Test';
+import Test from './Test';
 import { getAllLanguages } from '../api/languages';
-
-export type TLanguage = {
-	languageId: string;
-	languageName: string;
-};
 
 const TestList = () => {
 	const languageId = '0865afca-1408-42d0-9ebb-cbff837aa301';
@@ -33,8 +28,8 @@ const TestList = () => {
 		? 'Loading'
 		: languagesIsError
 		? 'Error'
-		: languagesData.filter(
-				(language: TLanguage) => language.languageId === languageId
+		: languagesData.data.filter(
+				(language) => language.languageId === languageId
 				// eslint-disable-next-line no-mixed-spaces-and-tabs
 		  )[0].languageName;
 
@@ -45,7 +40,7 @@ const TestList = () => {
 	return (
 		<div className='grid gap-y-4'>
 			<div>Tests for {languageName}</div>
-			{testsData.map((item: TTest) => (
+			{testsData.data.map((item) => (
 				<Test
 					key={item.testId}
 					languageId={item.languageId}

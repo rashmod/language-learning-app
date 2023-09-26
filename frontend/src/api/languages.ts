@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-export const getAllLanguages = async () => {
+export const getAllLanguages = async (): Promise<{
+	success: boolean;
+	count: number;
+	data: TLanguage[];
+}> => {
 	const res = await axios.get(
 		`${import.meta.env.VITE_BACKEND_BASE_URL}/api/languages`
 	);
@@ -15,3 +19,8 @@ export const getAllLanguages = async () => {
 // 	const { data } = await res.data;
 // 	return data;
 // };
+
+export type TLanguage = {
+	languageId: string;
+	languageName: string;
+};
