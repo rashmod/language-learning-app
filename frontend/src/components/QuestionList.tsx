@@ -1,3 +1,5 @@
+import { useMemo, Dispatch, SetStateAction } from 'react';
+
 import shuffle from '../utilities/shuffle';
 import { TMultiStepComponent } from './MultiStepComponent';
 import Question, { TQuestion } from './Question';
@@ -9,11 +11,13 @@ const QuestionList = ({
 	isFirstPage,
 	isLastPage,
 	currentStepIndex,
-}: { questions: TQuestion[]; currentStepIndex: number } & Omit<
-	TMultiStepComponent,
-	'setIsSubmitted'
->) => {
-	const shuffledQuestions = shuffle(questions);
+	setTestScore,
+}: {
+	questions: TQuestion[];
+	currentStepIndex: number;
+	setTestScore: Dispatch<SetStateAction<number>>;
+} & Omit<TMultiStepComponent, 'setIsSubmitted'>) => {
+	const shuffledQuestions = useMemo(() => shuffle(questions), [questions]);
 
 	return (
 		<div className='grid w-2/3 mx-auto gap-y-8'>
@@ -29,6 +33,7 @@ const QuestionList = ({
 					goToPreviousPage={goToPreviousPage}
 					isFirstPage={isFirstPage}
 					isLastPage={isLastPage}
+					setTestScore={setTestScore}
 				/>
 			))}
 		</div>

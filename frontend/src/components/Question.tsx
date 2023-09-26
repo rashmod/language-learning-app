@@ -1,4 +1,10 @@
-import { ChangeEvent, useMemo, useState } from 'react';
+import {
+	ChangeEvent,
+	useMemo,
+	useState,
+	Dispatch,
+	SetStateAction,
+} from 'react';
 
 import MultiStepComponent, { TMultiStepComponent } from './MultiStepComponent';
 import Option, { TOption } from './Option';
@@ -23,16 +29,24 @@ const Question = ({
 	isFirstPage,
 	isLastPage,
 	currentStepIndex,
+	setTestScore,
 }: Omit<TQuestion, 'createdAt' | 'questionId' | 'testId'> &
 	Omit<TMultiStepComponent, 'setIsSubmitted'> & {
 		index: number;
 		currentStepIndex: number;
+		setTestScore: Dispatch<SetStateAction<number>>;
 	}) => {
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const [checked, setChecked] = useState<string>();
+	const [answerIsCorrect, setAnswerIsCorrect] = useState(false);
 
 	const onSelectHandler = (e: ChangeEvent<HTMLInputElement>) => {
 		if (e.target.checked) setChecked(e.target.value);
+	};
+
+	const submitHandler = () => {
+		setIsSubmitted(true);
+		if (answerIsCorrect) setTestScore((prev) => prev + difficulty);
 	};
 
 	const shuffledOptions = useMemo(() => shuffle(options), [options]);
@@ -58,6 +72,7 @@ const Question = ({
 							isSubmitted={isSubmitted}
 							checked={checked}
 							onSelectHandler={onSelectHandler}
+							setAnswerIsCorrect={setAnswerIsCorrect}
 						/>
 					))}
 				</ul>
@@ -66,7 +81,7 @@ const Question = ({
 					goToPreviousPage={goToPreviousPage}
 					isFirstPage={isFirstPage}
 					isLastPage={isLastPage}
-					setIsSubmitted={setIsSubmitted}
+					submitHandler={submitHandler}
 				/>
 			</form>
 		);

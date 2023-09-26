@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react';
 
 import cn from '../utilities/cn';
 
@@ -18,13 +18,20 @@ const Option = ({
 	isSubmitted,
 	checked,
 	onSelectHandler,
+	setAnswerIsCorrect,
 }: TOption & {
 	index: number;
 	isSubmitted: boolean;
 	checked: string | undefined;
 	onSelectHandler: (e: ChangeEvent<HTMLInputElement>) => void;
+	setAnswerIsCorrect: Dispatch<SetStateAction<boolean>>;
 }) => {
 	const isSelected = checked ? checked === optionId : false;
+	useEffect(() => {
+		if (isSelected && isCorrect) {
+			setAnswerIsCorrect(true);
+		}
+	}, [isCorrect, isSelected, setAnswerIsCorrect]);
 
 	return (
 		<li>

@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
 import { getTestQuestions } from '../api/questions';
 import useMultiStep from '../hooks/useMultiStep';
@@ -7,6 +8,8 @@ import useUnsavedChangesWarning from '../hooks/useUnsavedChangesWarning';
 import QuestionList from '../components/QuestionList';
 
 const TestPage = () => {
+	const [testScore, setTestScore] = useState(0);
+
 	const {
 		state: { languageId, testId, testName },
 	} = useLocation();
@@ -27,6 +30,8 @@ const TestPage = () => {
 	} = useMultiStep(length);
 
 	useUnsavedChangesWarning(true);
+
+	console.log({ testScore });
 
 	if (isLoading) return <h1>Loading...</h1>;
 
@@ -52,6 +57,7 @@ const TestPage = () => {
 					isFirstPage={isFirstPage}
 					isLastPage={isLastPage}
 					currentStepIndex={currentStepIndex}
+					setTestScore={setTestScore}
 				/>
 			) : (
 				<div>No Questions added to this test yet.</div>
