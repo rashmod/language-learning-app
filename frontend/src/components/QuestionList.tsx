@@ -1,3 +1,4 @@
+import shuffle from '../utilities/shuffle';
 import { TMultiStepComponent } from './MultiStepComponent';
 import Question, { TQuestion } from './Question';
 
@@ -12,9 +13,11 @@ const QuestionList = ({
 	TMultiStepComponent,
 	'setIsSubmitted'
 >) => {
+	const shuffledQuestions = shuffle(questions);
+
 	return (
 		<div className='grid w-2/3 mx-auto gap-y-8'>
-			{questions.map((question: TQuestion, index) => (
+			{shuffledQuestions.map((question: TQuestion, index) => (
 				<Question
 					key={question.questionId}
 					questionText={question.questionText}

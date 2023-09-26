@@ -1,7 +1,8 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 
 import MultiStepComponent, { TMultiStepComponent } from './MultiStepComponent';
 import Option, { TOption } from './Option';
+import shuffle from '../utilities/shuffle';
 
 export type TQuestion = {
 	questionId: string;
@@ -34,6 +35,8 @@ const Question = ({
 		if (e.target.checked) setChecked(e.target.value);
 	};
 
+	const shuffledOptions = useMemo(() => shuffle(options), [options]);
+
 	if (index === currentStepIndex)
 		return (
 			<form className='relative'>
@@ -44,7 +47,7 @@ const Question = ({
 					{difficulty} marks
 				</span>
 				<ul className='grid w-full gap-2'>
-					{options.map((option, index) => (
+					{shuffledOptions.map((option, index) => (
 						<Option
 							key={option.optionId}
 							optionId={option.optionId}
