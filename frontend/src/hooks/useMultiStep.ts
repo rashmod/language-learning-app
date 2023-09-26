@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
-const useMultiStep = (length: number) => {
+const useMultiStep = () => {
 	const [currentStepIndex, setCurrentStepIndex] = useState(0);
+	const [length, setLength] = useState(0);
 
 	function goToNextPage() {
 		setCurrentStepIndex((prev) => {
@@ -24,6 +25,7 @@ const useMultiStep = (length: number) => {
 		length,
 		isFirstPage: currentStepIndex === 0,
 		isLastPage: currentStepIndex === length - 1,
+		setLength,
 	};
 };
 

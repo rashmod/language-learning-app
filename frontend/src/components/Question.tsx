@@ -6,9 +6,10 @@ import {
 	SetStateAction,
 } from 'react';
 
-import MultiStepComponent, { TMultiStepComponent } from './MultiStepComponent';
+import MultiStepComponent from './MultiStepComponent';
 import Option, { TOption } from './Option';
 import shuffle from '../utilities/shuffle';
+import { useNavigationState } from '../context/navigationContext';
 
 export type TQuestion = {
 	questionId: string;
@@ -24,21 +25,16 @@ const Question = ({
 	difficulty,
 	options,
 	index,
-	goToNextPage,
-	goToPreviousPage,
-	isFirstPage,
-	isLastPage,
-	currentStepIndex,
 	setTestScore,
-}: Omit<TQuestion, 'createdAt' | 'questionId' | 'testId'> &
-	Omit<TMultiStepComponent, 'setIsSubmitted'> & {
-		index: number;
-		currentStepIndex: number;
-		setTestScore: Dispatch<SetStateAction<number>>;
-	}) => {
+}: Omit<TQuestion, 'createdAt' | 'questionId' | 'testId'> & {
+	index: number;
+	setTestScore: Dispatch<SetStateAction<number>>;
+}) => {
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const [checked, setChecked] = useState<string>();
 	const [answerIsCorrect, setAnswerIsCorrect] = useState(false);
+
+	const { currentStepIndex } = useNavigationState();
 
 	const onSelectHandler = (e: ChangeEvent<HTMLInputElement>) => {
 		if (e.target.checked) setChecked(e.target.value);
@@ -76,13 +72,7 @@ const Question = ({
 						/>
 					))}
 				</ul>
-				<MultiStepComponent
-					goToNextPage={goToNextPage}
-					goToPreviousPage={goToPreviousPage}
-					isFirstPage={isFirstPage}
-					isLastPage={isLastPage}
-					submitHandler={submitHandler}
-				/>
+				<MultiStepComponent submitHandler={submitHandler} />
 			</form>
 		);
 };

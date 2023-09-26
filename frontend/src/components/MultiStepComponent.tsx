@@ -1,3 +1,4 @@
+import { useNavigationState } from '../context/navigationContext';
 import cn from '../utilities/cn';
 
 export type TMultiStepComponent = {
@@ -8,12 +9,13 @@ export type TMultiStepComponent = {
 };
 
 const MultiStepComponent = ({
-	goToNextPage,
-	goToPreviousPage,
-	isFirstPage,
-	isLastPage,
 	submitHandler,
-}: TMultiStepComponent & { submitHandler: () => void }) => {
+}: {
+	submitHandler: () => void;
+}) => {
+	const { goToNextPage, goToPreviousPage, isFirstPage, isLastPage } =
+		useNavigationState();
+
 	return (
 		<div className='mt-8'>
 			<div className='flex w-full gap-8'>

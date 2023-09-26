@@ -1,11 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { getTestQuestions } from '../api/questions';
-import useMultiStep from '../hooks/useMultiStep';
 import useUnsavedChangesWarning from '../hooks/useUnsavedChangesWarning';
 import QuestionList from '../components/QuestionList';
+import { useNavigationState } from '../context/navigationContext';
 
 const TestPage = () => {
 	const [testScore, setTestScore] = useState(0);
@@ -21,13 +21,11 @@ const TestPage = () => {
 
 	const length = data ? data.data.length : 0;
 
-	const {
-		currentStepIndex,
-		goToNextPage,
-		goToPreviousPage,
-		isFirstPage,
-		isLastPage,
-	} = useMultiStep(length);
+	const { setLength } = useNavigationState();
+
+	useEffect(() => {
+		setLength(length);
+	}, [length, setLength]);
 
 	useUnsavedChangesWarning(true);
 
@@ -52,11 +50,6 @@ const TestPage = () => {
 			{data.count > 0 ? (
 				<QuestionList
 					questions={data.data}
-					goToNextPage={goToNextPage}
-					goToPreviousPage={goToPreviousPage}
-					isFirstPage={isFirstPage}
-					isLastPage={isLastPage}
-					currentStepIndex={currentStepIndex}
 					setTestScore={setTestScore}
 				/>
 			) : (
