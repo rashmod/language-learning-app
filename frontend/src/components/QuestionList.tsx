@@ -1,15 +1,31 @@
+import { TMultiStepComponent } from './MultiStepComponent';
 import Question, { TQuestion } from './Question';
 
-const QuestionList = ({ data }: { data: TQuestion[] }) => {
+const QuestionList = ({
+	questions,
+	goToNextPage,
+	goToPreviousPage,
+	isFirstPage,
+	isLastPage,
+	currentStepIndex,
+}: { questions: TQuestion[]; currentStepIndex: number } & Omit<
+	TMultiStepComponent,
+	'setIsSubmitted'
+>) => {
 	return (
 		<div className='grid w-2/3 mx-auto gap-y-8'>
-			{data.map((question: TQuestion, index) => (
+			{questions.map((question: TQuestion, index) => (
 				<Question
 					key={question.questionId}
-					difficulty={question.difficulty}
 					questionText={question.questionText}
+					difficulty={question.difficulty}
 					options={question.options}
 					index={index}
+					currentStepIndex={currentStepIndex}
+					goToNextPage={goToNextPage}
+					goToPreviousPage={goToPreviousPage}
+					isFirstPage={isFirstPage}
+					isLastPage={isLastPage}
 				/>
 			))}
 		</div>

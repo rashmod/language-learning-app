@@ -1,9 +1,10 @@
 import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+
 import { getTestQuestions } from '../api/questions';
 import useMultiStep from '../hooks/useMultiStep';
-import Question from '../components/Question';
 import useUnsavedChangesWarning from '../hooks/useUnsavedChangesWarning';
+import QuestionList from '../components/QuestionList';
 
 const TestPage = () => {
 	const {
@@ -31,8 +32,6 @@ const TestPage = () => {
 
 	if (isError) return <h1>Error</h1>;
 
-	const currentQuestion = data.data[currentStepIndex];
-
 	return (
 		<div>
 			<div className='flex justify-between mb-4'>
@@ -46,15 +45,13 @@ const TestPage = () => {
 				</button>
 			</div>
 			{data.count > 0 ? (
-				<Question
-					questionText={currentQuestion.questionText}
-					difficulty={currentQuestion.difficulty}
-					options={currentQuestion.options}
-					index={currentStepIndex}
+				<QuestionList
+					questions={data.data}
 					goToNextPage={goToNextPage}
 					goToPreviousPage={goToPreviousPage}
 					isFirstPage={isFirstPage}
 					isLastPage={isLastPage}
+					currentStepIndex={currentStepIndex}
 				/>
 			) : (
 				<div>No Questions added to this test yet.</div>

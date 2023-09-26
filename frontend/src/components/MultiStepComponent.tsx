@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import cn from '../utilities/cn';
 
 export type TMultiStepComponent = {
@@ -5,6 +7,7 @@ export type TMultiStepComponent = {
 	goToPreviousPage: () => void;
 	isFirstPage: boolean;
 	isLastPage: boolean;
+	setIsSubmitted: Dispatch<SetStateAction<boolean>>;
 };
 
 const MultiStepComponent = ({
@@ -12,6 +15,7 @@ const MultiStepComponent = ({
 	goToPreviousPage,
 	isFirstPage,
 	isLastPage,
+	setIsSubmitted,
 }: TMultiStepComponent) => {
 	return (
 		<div className='mt-8'>
@@ -33,6 +37,7 @@ const MultiStepComponent = ({
 				<div>
 					<button
 						type='button'
+						onClick={() => setIsSubmitted(true)}
 						className={cn(
 							'border border-gray-600 py-1 px-3 rounded hover:text-white hover:bg-black transition-all duration-200 w-28',
 							{
