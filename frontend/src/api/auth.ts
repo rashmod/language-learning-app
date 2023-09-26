@@ -9,13 +9,19 @@ export type TUser = {
 	updatedAt: string;
 };
 
+export type TSignIn = {
+	email: string;
+	password: string;
+};
+
+export type TSignUp = TSignIn & {
+	username: string;
+};
+
 export const signIn = async ({
 	email,
 	password,
-}: {
-	email: string;
-	password: string;
-}): Promise<{
+}: TSignIn): Promise<{
 	success: boolean;
 	data: TUser;
 }> => {
@@ -34,11 +40,7 @@ export const signUp = async ({
 	email,
 	password,
 	username,
-}: {
-	email: string;
-	username: string;
-	password: string;
-}): Promise<{
+}: TSignUp): Promise<{
 	success: boolean;
 	data: TUser;
 }> => {
@@ -48,8 +50,7 @@ export const signUp = async ({
 			username,
 			email,
 			password,
-		},
-		{ withCredentials: true }
+		}
 	);
 	const data = await res.data;
 	return data;

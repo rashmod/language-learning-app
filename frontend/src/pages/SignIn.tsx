@@ -1,10 +1,43 @@
-import { Link } from 'react-router-dom';
-import { FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { useEffect } from 'react';
+
+import { TSignIn, signIn } from '../api/auth';
+import { useGlobalState } from '../context/globalContext';
 
 const SignIn = () => {
-	const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
+	const mutation = useMutation({
+		mutationFn: signIn,
+	});
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<TSignIn>();
+
+	const navigate = useNavigate();
+
+	const { setUserId } = useGlobalState();
+
+	const onSubmitHandler: SubmitHandler<TSignIn> = ({ email, password }) => {
+		mutation.mutate({ email, password });
 	};
+
+	const signUpSuccess = mutation.isSuccess;
+	const userId = mutation.data?.data.userId;
+
+	console.log({ signUpSuccess, userId });
+
+	useEffect(() => {
+		if (signUpSuccess && userId) {
+			navigate('/', { replace: true });
+			localStorage.setItem('userId', userId);
+			setUserId(userId);
+			// ('ea74a1ec-1694-4875-b1d4-ca2ab568b209');
+		}
+	}, [signUpSuccess, userId, navigate, setUserId]);
 
 	return (
 		<div>
@@ -14,7 +47,7 @@ const SignIn = () => {
 				</p>
 				<form
 					className='space-y-4 md:space-y-6'
-					onSubmit={onSubmitHandler}>
+					onSubmit={handleSubmit(onSubmitHandler)}>
 					<div>
 						<div className='mb-2'>
 							<label
@@ -28,11 +61,22 @@ const SignIn = () => {
 						</div>
 						<input
 							type='email'
-							name='email'
 							id='email'
 							className='bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-black focus:border-black block w-full p-2.5'
 							placeholder='name@company.com'
+							{...register('email', {
+								required: 'Email is required',
+								pattern: {
+									value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+									message: 'Invalid email address',
+								},
+							})}
 						/>
+						{errors && errors['email'] && (
+							<p className='mt-0.5 text-sm text-red-400'>
+								{errors['email'].message}
+							</p>
+						)}
 					</div>
 					<div>
 						<div className='mb-2'>
@@ -47,11 +91,28 @@ const SignIn = () => {
 						</div>
 						<input
 							type='password'
-							name='password'
 							id='password'
 							placeholder='••••••••'
 							className='bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-black focus:border-black block w-full p-2.5'
+							{...register('password', {
+								required: 'Password is required',
+								minLength: {
+									value: 3,
+									message:
+										'Password must be at least 8 characters long',
+								},
+								maxLength: {
+									value: 20,
+									message:
+										'Password must not be more than 20 characters long',
+								},
+							})}
 						/>
+						{errors && errors['password'] && (
+							<p className='mt-0.5 text-sm text-red-400'>
+								{errors['password'].message}
+							</p>
+						)}
 					</div>
 					<button
 						type='submit'
