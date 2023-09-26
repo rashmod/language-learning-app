@@ -8,7 +8,7 @@ export const getAllLanguages = async (): Promise<{
 	const res = await axios.get(
 		`${import.meta.env.VITE_BACKEND_BASE_URL}/api/languages`
 	);
-	const { data } = await res.data;
+	const data = await res.data;
 	return data;
 };
 

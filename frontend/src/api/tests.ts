@@ -13,12 +13,17 @@ export const getTests = async (
 	return data;
 };
 
-export const endTest = async (
-	userId: string,
-	languageId: string,
-	testId: string,
-	score: number
-): Promise<{ success: boolean; count: number; data: TTestResult }> => {
+export const endTest = async ({
+	userId,
+	languageId,
+	testId,
+	score,
+}: {
+	userId: string;
+	languageId: string;
+	testId: string;
+	score: number;
+}): Promise<{ success: boolean; count: number; data: TTestResult }> => {
 	const res = await axios.post(
 		`${
 			import.meta.env.VITE_BACKEND_BASE_URL

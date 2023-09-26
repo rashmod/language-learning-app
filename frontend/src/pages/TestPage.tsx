@@ -6,20 +6,26 @@ import { getTestQuestions } from '../api/questions';
 import useUnsavedChangesWarning from '../hooks/useUnsavedChangesWarning';
 import QuestionList from '../components/QuestionList';
 import { useNavigationState } from '../context/navigationContext';
+import ConfirmEndTestModal from '../components/ConfirmEndTestModal';
 
 const TestPage = () => {
 	const [testScore, setTestScore] = useState(0);
+	const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
 
 	const {
 		state: { languageId, testId, testName },
 	} = useLocation();
 
-	const { data, isLoading, isError } = useQuery({
+	const {
+		data: questionsData,
+		isLoading: questionsIsLoading,
+		isError: questionsIsError,
+	} = useQuery({
 		queryKey: ['questions', testId],
 		queryFn: () => getTestQuestions(languageId, testId),
 	});
 
-	const length = data ? data.data.length : 0;
+	const length = questionsData ? questionsData.data.length : 0;
 
 	const { setLength } = useNavigationState();
 
@@ -31,25 +37,34 @@ const TestPage = () => {
 
 	console.log({ testScore });
 
-	if (isLoading) return <h1>Loading...</h1>;
+	if (questionsIsLoading) return <h1>Loading...</h1>;
 
-	if (isError) return <h1>Error</h1>;
+	if (questionsIsError) return <h1>Error</h1>;
 
 	return (
 		<div>
+			{isSubmitModalOpen && (
+				<ConfirmEndTestModal
+					setIsSubmitModalOpen={setIsSubmitModalOpen}
+					languageId={languageId}
+					testId={testId}
+					testScore={testScore}
+				/>
+			)}
 			<div className='flex justify-between mb-4'>
 				<h1 className='text-lg font-semibold text-gray-400'>
 					{testName}
 				</h1>
 				<button
 					type='button'
+					onClick={() => setIsSubmitModalOpen(true)}
 					className='px-3 py-1 text-xs transition-all duration-200 border border-gray-600 rounded hover:text-white hover:bg-red-600 hover:border-red-600'>
 					End Test
 				</button>
 			</div>
-			{data.count > 0 ? (
+			{questionsData.count > 0 ? (
 				<QuestionList
-					questions={data.data}
+					questions={questionsData.data}
 					setTestScore={setTestScore}
 				/>
 			) : (
