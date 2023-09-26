@@ -9,7 +9,8 @@ export const getTestQuestions = async (
 	const res = await axios.get(
 		`${
 			import.meta.env.VITE_BACKEND_BASE_URL
-		}/api/languages/${languageId}/tests/${testId}/questions`
+		}/api/languages/${languageId}/tests/${testId}/questions`,
+		{ withCredentials: true }
 	);
 	const data = await res.data;
 	return data;

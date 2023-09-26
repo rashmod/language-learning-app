@@ -7,7 +7,8 @@ export const getTests = async (
 	const res = await axios.get(
 		`${
 			import.meta.env.VITE_BACKEND_BASE_URL
-		}/api/languages/${languageId}/tests`
+		}/api/languages/${languageId}/tests`,
+		{ withCredentials: true }
 	);
 	const data = await res.data;
 	return data;
@@ -28,7 +29,8 @@ export const endTest = async ({
 		`${
 			import.meta.env.VITE_BACKEND_BASE_URL
 		}/api/users/${userId}/languages/${languageId}/tests/${testId}/testResults`,
-		{ score }
+		{ score },
+		{ withCredentials: true }
 	);
 	const data = await res.data;
 	return data;

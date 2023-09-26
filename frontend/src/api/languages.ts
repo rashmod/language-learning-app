@@ -6,7 +6,8 @@ export const getAllLanguages = async (): Promise<{
 	data: TLanguage[];
 }> => {
 	const res = await axios.get(
-		`${import.meta.env.VITE_BACKEND_BASE_URL}/api/languages`
+		`${import.meta.env.VITE_BACKEND_BASE_URL}/api/languages`,
+		{ withCredentials: true }
 	);
 	const data = await res.data;
 	return data;

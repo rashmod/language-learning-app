@@ -3,9 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import { getTests } from '../api/tests';
 import Test from './Test';
 import { getAllLanguages } from '../api/languages';
+import { useGlobalState } from '../context/globalContext';
 
 const TestList = () => {
-	const languageId = '0865afca-1408-42d0-9ebb-cbff837aa301';
+	const { languageId } = useGlobalState();
+
 	const {
 		data: testsData,
 		isLoading: TestsIsLoading,
