@@ -1,14 +1,18 @@
-import connectDB, { prisma } from '../db/prisma';
-import generateLanguage from './generator/generateLanguage';
-import generateQuestions from './generator/generateQuestions';
+import connectDB from '../db/prisma';
+import clearDatabase from './clearDatabase';
+import generateLanguages from './generator/generateLanguages';
+import generateUsers from './generator/generateUsers';
 import seedCallback from './utilities/seedCallback';
 
 connectDB();
 
-// seedCallback(generateTest, 'generate Test');
-// seedCallback(generateLanguage, 'generate Test');
-seedCallback(async () => {
-	// await prisma.language.deleteMany();
-	// await prisma.testResult.deleteMany();
-	// await prisma.user.deleteMany();
-}, 'delete');
+// const clearDatabaseMessage = 'clearing database';
+// seedCallback(clearDatabase, clearDatabaseMessage);
+
+// const generateLanguagesMessage =
+// 	'seeding database with language, test, questions and options data';
+// seedCallback(generateLanguages, generateLanguagesMessage);
+
+// const generateUserMessage =
+// 	'seeding database with user, user languages and test results data';
+// seedCallback(() => generateUsers(100), generateUserMessage);

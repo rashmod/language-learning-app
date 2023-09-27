@@ -1,4 +1,4 @@
-const getRandomElements = (array: any[], count: number) => {
+const getRandomElements = <T>(array: T[], count: number): T[] => {
 	const shuffled = array.slice();
 	let currentIndex = shuffled.length;
 	let temporaryValue, randomIndex;
