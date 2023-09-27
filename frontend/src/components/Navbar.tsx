@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';
@@ -10,6 +10,8 @@ import toastConfig from '../config/toastConfig';
 const Navbar = () => {
 	const { userId, setUserId } = useGlobalState();
 	const mutation = useMutation({ mutationFn: signOut });
+
+	const queryClient = useQueryClient();
 
 	const navigate = useNavigate();
 
@@ -24,9 +26,10 @@ const Navbar = () => {
 			navigate('/', { replace: false });
 			toast.success('Successfully signed out', toastConfig);
 
+			queryClient.resetQueries();
 			reset();
 		}
-	}, [signOutSuccess, navigate, setUserId, reset]);
+	}, [signOutSuccess, navigate, setUserId, reset, queryClient]);
 
 	return (
 		<nav className='flex justify-between py-2 mb-4 border-b border-black'>
