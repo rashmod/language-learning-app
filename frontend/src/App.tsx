@@ -3,7 +3,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useCallback } from 'react';
 
-import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import TestPage from './pages/TestPage';
 import { NavigationContextProvider } from './context/navigationContext';
@@ -13,6 +12,7 @@ import SignIn from './pages/SignIn';
 import LeaderBoard from './pages/LeaderBoard';
 import AuthRoute from './components/AuthRoute';
 import NotFound from './pages/NotFound';
+import TestList from './pages/TestList';
 
 function App() {
 	const { userId, setUserId, languageId, setLanguageId } = useGlobalState();
@@ -45,7 +45,7 @@ function App() {
 						path='/language'
 						element={
 							<AuthRoute>
-								<Home />
+								<TestList />
 							</AuthRoute>
 						}
 					/>

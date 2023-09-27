@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { getTests } from '../api/tests';
-import Test from './Test';
+import Test from '../components/Test';
 import { getAllLanguages } from '../api/languages';
 import { useGlobalState } from '../context/globalContext';
 
