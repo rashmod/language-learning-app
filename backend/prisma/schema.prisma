@@ -32,21 +32,22 @@ model Language {
 }
 
 model UserLanguage {
-  userLanguageId  String @id @default(uuid())
-  proficienyLevel Int    @default(0)
-  score           Int
+  proficiencyLevel Int @default(0)
+  score            Int @default(0)
 
   language   Language @relation(fields: [languageId], references: [languageId])
   languageId String
 
   user   User   @relation(fields: [userId], references: [userId])
   userId String
+
+  @@id([userId, languageId])
 }
 
 model Test {
   testId   String @id @default(uuid())
   testName String
-  maxScore Int
+  maxScore Int    @default(0)
 
   Language    Language?    @relation(fields: [languageId], references: [languageId])
   languageId  String?
