@@ -7,13 +7,14 @@ import useUnsavedChangesWarning from '../hooks/useUnsavedChangesWarning';
 import QuestionList from '../components/QuestionList';
 import { useNavigationState } from '../context/navigationContext';
 import ConfirmEndTestModal from '../components/ConfirmEndTestModal';
+import { ChevronRight } from 'lucide-react';
 
 const TestPage = () => {
 	const [testScore, setTestScore] = useState(0);
 	const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
 
 	const {
-		state: { languageId, testId, testName },
+		state: { languageId, testId, testName, languageName },
 	} = useLocation();
 
 	const {
@@ -35,8 +36,6 @@ const TestPage = () => {
 
 	useUnsavedChangesWarning(true);
 
-	console.log({ testScore });
-
 	if (questionsIsLoading) return <h1>Loading...</h1>;
 
 	if (questionsIsError) return <h1>Error</h1>;
@@ -52,8 +51,10 @@ const TestPage = () => {
 				/>
 			)}
 			<div className='flex justify-between mb-4'>
-				<h1 className='text-lg font-semibold text-gray-400'>
-					{testName}
+				<h1 className='flex items-center gap-2 text-lg font-semibold text-gray-400'>
+					<p>{languageName}</p>
+					<ChevronRight />
+					<p>{testName}</p>
 				</h1>
 				<button
 					type='button'

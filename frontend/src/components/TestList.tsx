@@ -48,6 +48,11 @@ const TestList = () => {
 					maxScore={item.maxScore}
 					testId={item.testId}
 					testName={item.testName}
+					languageName={
+						languagesData?.data.find(
+							(lang) => lang.languageId === item.languageId
+						)?.languageName
+					}
 				/>
 			))}
 		</div>
