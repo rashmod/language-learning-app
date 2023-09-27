@@ -4,11 +4,12 @@ import {
 	getAllTestResults,
 } from '../controllers/TestResultControllers';
 import catchAsyncError from '../utilities/catchAsyncError';
+import isSignedIn from '../middlewares/isSignedIn';
 
 // get the questionId from app.use
 const router = Router({ mergeParams: true });
 
-router.get('/', catchAsyncError(getAllTestResults));
-router.post('/', catchAsyncError(createTestResult));
+router.get('/', isSignedIn, catchAsyncError(getAllTestResults));
+router.post('/', isSignedIn, catchAsyncError(createTestResult));
 
 export default router;
