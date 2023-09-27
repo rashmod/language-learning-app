@@ -54,7 +54,7 @@ export const getTest = async (req: Request, res: Response) => {
 // @access admin
 export const createTest = async (req: Request, res: Response) => {
 	const { languageId } = req.params;
-	const { testName, maxScore } = req.body;
+	const { testName } = req.body;
 
 	const language = await prisma.language.findUnique({
 		where: { languageId },
@@ -73,7 +73,7 @@ export const createTest = async (req: Request, res: Response) => {
 		);
 
 	const test = await prisma.test.create({
-		data: { testName, maxScore, Language: { connect: { languageId } } },
+		data: { testName, Language: { connect: { languageId } } },
 	});
 
 	res.status(200).json({ success: true, data: test });

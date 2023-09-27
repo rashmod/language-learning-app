@@ -10,7 +10,7 @@ import isSignedIn from '../middlewares/isSignedIn';
 const router = Router();
 
 router.get('/', catchAsyncError(getAllUsers));
-router.post('/', isSignedIn, catchAsyncError(createUser));
+router.post('/', catchAsyncError(createUser));
 
 router.get('/:userId', isSignedIn, catchAsyncError(getUser));
 

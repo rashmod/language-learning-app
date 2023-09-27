@@ -10,6 +10,7 @@ import TestRoutes from './routes/TestRoutes';
 import QuestionRoutes from './routes/QuestionRoutes';
 import OptionRoutes from './routes/OptionRoutes';
 import TestResultRoutes from './routes/TestResultRoutes';
+import AuthRoutes from './routes/AuthRoutes';
 import errorHandler from './middlewares/errorHandler';
 
 declare module 'express-session' {
@@ -24,6 +25,10 @@ const app = express();
 
 if (!process.env.COOKIE_SECRET) {
 	throw new Error('Set cookie secret in the environment variable');
+}
+
+if (!process.env.CLIENT_URL) {
+	throw new Error('Set client url in the environment variable');
 }
 
 if (process.env.NODE_ENV === 'PRODUCTION') {
@@ -54,9 +59,7 @@ if (process.env.NODE_ENV === 'DEVELOPMENT') {
 }
 
 app.use(express.json());
-app.use(cors());
-
-connectDB();
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 
 /*
 todo 
@@ -83,8 +86,11 @@ app.use(
 	'/api/users/:userId/languages/:languageId/tests/:testId/testResults',
 	TestResultRoutes
 );
+app.use('/api/auth', AuthRoutes);
 
 app.use(errorHandler);
+
+connectDB();
 
 app.listen(process.env.PORT, () => {
 	console.log(`server running in environment: ${process.env.NODE_ENV}`);
