@@ -12,6 +12,7 @@ import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import LeaderBoard from './pages/LeaderBoard';
 import AuthRoute from './components/AuthRoute';
+import NotFound from './pages/NotFound';
 
 function App() {
 	const { userId, setUserId, languageId, setLanguageId } = useGlobalState();
@@ -36,7 +37,7 @@ function App() {
 
 	return (
 		<h1 className='flex flex-col items-center min-h-screen'>
-			<div className='w-10/12 pb-8 grow'>
+			<div className='flex flex-col w-10/12 pb-8 grow'>
 				<Navbar />
 				<Routes>
 					<Route path='/' element={<LeaderBoard />} />
@@ -60,6 +61,7 @@ function App() {
 					/>
 					<Route path='/sign-up' element={<SignUp />} />
 					<Route path='/sign-in' element={<SignIn />} />
+					<Route path='*' element={<NotFound />} />
 				</Routes>
 				<ToastContainer />
 			</div>
