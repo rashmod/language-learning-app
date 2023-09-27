@@ -22,9 +22,7 @@ export function GlobalContextProvider({
 	children: ReactElement;
 }) {
 	const [userId, setUserId] = useState('');
-	const [languageId, setLanguageId] = useState(
-		'7be440ed-2f8f-4c3f-99d0-74492549ce7c'
-	);
+	const [languageId, setLanguageId] = useState('');
 
 	return (
 		<GlobalContext.Provider
