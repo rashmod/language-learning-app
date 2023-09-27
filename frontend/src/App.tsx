@@ -11,6 +11,7 @@ import { useGlobalState } from './context/globalContext';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import LeaderBoard from './pages/LeaderBoard';
+import AuthRoute from './components/AuthRoute';
 
 function App() {
 	const { userId, setUserId, languageId, setLanguageId } = useGlobalState();
@@ -39,13 +40,22 @@ function App() {
 				<Navbar />
 				<Routes>
 					<Route path='/' element={<LeaderBoard />} />
-					<Route path='/language' element={<Home />} />
+					<Route
+						path='/language'
+						element={
+							<AuthRoute>
+								<Home />
+							</AuthRoute>
+						}
+					/>
 					<Route
 						path='/test/:testName'
 						element={
-							<NavigationContextProvider>
-								<TestPage />
-							</NavigationContextProvider>
+							<AuthRoute>
+								<NavigationContextProvider>
+									<TestPage />
+								</NavigationContextProvider>
+							</AuthRoute>
 						}
 					/>
 					<Route path='/sign-up' element={<SignUp />} />
