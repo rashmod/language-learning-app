@@ -65,13 +65,19 @@ export const createTestResult = async (req: Request, res: Response) => {
 
 	if (!test) throw new NotFoundError('The requested test was not found');
 
-	const testResult = await prisma.testResult.create({
-		data: {
-			score,
-			user: { connect: { userId } },
-			test: { connect: { testId } },
-		},
-	});
+	const [testResult] = await prisma.$transaction([
+		prisma.testResult.create({
+			data: {
+				score,
+				user: { connect: { userId } },
+				test: { connect: { testId } },
+			},
+		}),
+		prisma.userLanguage.update({
+			where: { userId_languageId: { userId, languageId } },
+			data: { score: { increment: score } },
+		}),
+	]);
 
 	res.status(200).json({ success: true, data: testResult });
 };

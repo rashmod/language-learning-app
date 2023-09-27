@@ -90,22 +90,28 @@ export const createQuestion = async (req: Request, res: Response) => {
 
 	if (!test) throw new NotFoundError('The requested test was not found');
 
-	const question = await prisma.question.create({
-		data: {
-			questionText,
-			difficulty,
-			test: { connect: { testId } },
-			options: {
-				create: options.map(({ optionText, isCorrect }) => ({
-					optionText,
-					isCorrect,
-				})),
+	const [question] = await prisma.$transaction([
+		prisma.question.create({
+			data: {
+				questionText,
+				difficulty,
+				test: { connect: { testId } },
+				options: {
+					create: options.map(({ optionText, isCorrect }) => ({
+						optionText,
+						isCorrect,
+					})),
+				},
 			},
-		},
-		include: {
-			options: true,
-		},
-	});
+			include: {
+				options: true,
+			},
+		}),
+		prisma.test.update({
+			where: { testId },
+			data: { maxScore: { increment: difficulty } },
+		}),
+	]);
 
 	res.status(200).json({ success: true, data: question });
 };
