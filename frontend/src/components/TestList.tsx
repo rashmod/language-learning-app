@@ -6,34 +6,21 @@ import { getAllLanguages } from '../api/languages';
 import { useGlobalState } from '../context/globalContext';
 
 const TestList = () => {
-	const { languageId } = useGlobalState();
+	const { languageId, setLanguageId } = useGlobalState();
 
 	const {
 		data: testsData,
 		isLoading: TestsIsLoading,
 		isError: TestsIsError,
 	} = useQuery({
-		queryKey: ['tests'],
-		queryFn: () => getTests(languageId),
+		queryKey: ['tests', languageId],
+		queryFn: ({ queryKey }) => getTests(queryKey[1]),
 	});
 
-	const {
-		data: languagesData,
-		isLoading: languagesIsLoading,
-		isError: languagesIsError,
-	} = useQuery({
+	const { data: languagesData } = useQuery({
 		queryKey: ['languages'],
 		queryFn: getAllLanguages,
 	});
-
-	const languageName = languagesIsLoading
-		? 'Loading'
-		: languagesIsError
-		? 'Error'
-		: languagesData.data.filter(
-				(language) => language.languageId === languageId
-				// eslint-disable-next-line no-mixed-spaces-and-tabs
-		  )[0].languageName;
 
 	if (TestsIsLoading) return <h1>Loading...</h1>;
 
@@ -41,7 +28,19 @@ const TestList = () => {
 
 	return (
 		<div className='grid gap-y-4'>
-			<div>Tests for {languageName}</div>
+			<div className='flex gap-4'>
+				<div>Tests for</div>
+				<select
+					className='px-3 py-1 text-xs transition-all duration-200 border border-gray-600 rounded'
+					value={languageId}
+					onChange={(e) => setLanguageId(e.target.value)}>
+					{languagesData?.data.map((lang) => (
+						<option key={lang.languageId} value={lang.languageId}>
+							{lang.languageName}
+						</option>
+					))}
+				</select>
+			</div>
 			{testsData.data.map((item) => (
 				<Test
 					key={item.testId}
