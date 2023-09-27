@@ -37,11 +37,11 @@ function App() {
 
 	return (
 		<h1 className='flex flex-col items-center min-h-screen'>
-			<div className='w-10/12 grow'>
+			<div className='w-10/12 pb-8 grow'>
 				<Navbar />
 				<Routes>
 					<Route path='/' element={<LeaderBoard />} />
-					<Route path='/language/:languageName' element={<Home />} />
+					<Route path='/language' element={<Home />} />
 					<Route
 						path='/test/:testName'
 						element={

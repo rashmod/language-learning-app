@@ -2,9 +2,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 import { TSignIn, signIn } from '../api/auth';
 import { useGlobalState } from '../context/globalContext';
+import toastConfig from '../config/toastConfig';
 
 const SignIn = () => {
 	const mutation = useMutation({
@@ -35,7 +37,7 @@ const SignIn = () => {
 			navigate('/', { replace: true });
 			localStorage.setItem('userId', userId);
 			setUserId(userId);
-			// ('ea74a1ec-1694-4875-b1d4-ca2ab568b209');
+			toast.success('Successfully signed in', toastConfig);
 		}
 	}, [signUpSuccess, userId, navigate, setUserId]);
 

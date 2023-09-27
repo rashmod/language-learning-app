@@ -2,9 +2,11 @@ import { useMutation } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 import { TSignUp, signUp } from '../api/auth';
 import { useGlobalState } from '../context/globalContext';
+import toastConfig from '../config/toastConfig';
 
 const SignUp = () => {
 	const mutation = useMutation({
@@ -37,6 +39,7 @@ const SignUp = () => {
 			navigate('/', { replace: true });
 			localStorage.setItem('userId', userId);
 			setUserId(userId);
+			toast.success('Successfully signed up', toastConfig);
 		}
 	}, [signUpSuccess, userId, navigate, setUserId]);
 

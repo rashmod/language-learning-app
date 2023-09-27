@@ -1,32 +1,44 @@
 import { useMutation } from '@tanstack/react-query';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useEffect, useMemo } from 'react';
+import { toast } from 'react-toastify';
 
 import { signOut } from '../api/auth';
+import { useGlobalState } from '../context/globalContext';
+import toastConfig from '../config/toastConfig';
 
 const Navbar = () => {
+	const { userId, setUserId } = useGlobalState();
 	const mutation = useMutation({ mutationFn: signOut });
 
 	const navigate = useNavigate();
 
-	const signOutSuccess = useMemo(() => mutation.isSuccess, []);
+	const signOutSuccess = useMemo(() => mutation.isSuccess, [mutation]);
+	const reset = mutation.reset;
 
 	useEffect(() => {
 		if (signOutSuccess) {
 			localStorage.removeItem('userId');
 			localStorage.removeItem('languageId');
+			setUserId('');
 			navigate('/', { replace: false });
+			toast.success('Successfully signed out', toastConfig);
+
+			reset();
 		}
-	}, [signOutSuccess, navigate]);
+	}, [signOutSuccess, navigate, setUserId, reset]);
 
 	return (
 		<nav className='flex justify-between py-2 mb-4 border-b border-black'>
 			<NavLink to='/'>JediTalks</NavLink>
 			<div className='flex gap-8'>
 				<NavLink to='/'>Home</NavLink>
-				<NavLink to='/'>Profile</NavLink>
-				<NavLink to='/sign-in'>Sign In</NavLink>
-				<button onClick={() => mutation.mutate()}>Sign Out</button>
+				<NavLink to='/language'>Tests</NavLink>
+				{userId && <NavLink to='/'>Profile</NavLink>}
+				{!userId && <NavLink to='/sign-in'>Sign In</NavLink>}
+				{userId && (
+					<button onClick={() => mutation.mutate()}>Sign Out</button>
+				)}
 			</div>
 		</nav>
 	);
