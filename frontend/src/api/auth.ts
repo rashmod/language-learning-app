@@ -30,7 +30,8 @@ export const signIn = async ({
 		{
 			email,
 			password,
-		}
+		},
+		{ withCredentials: true }
 	);
 	const data = await res.data;
 	return data;
@@ -50,7 +51,8 @@ export const signUp = async ({
 			username,
 			email,
 			password,
-		}
+		},
+		{ withCredentials: true }
 	);
 	const data = await res.data;
 	return data;

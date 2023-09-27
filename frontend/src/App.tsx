@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { useGlobalState } from './context/globalContext';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
+import LeaderBoard from './pages/LeaderBoard';
 
 function App() {
 	const { userId, setUserId, languageId, setLanguageId } = useGlobalState();
@@ -39,7 +40,8 @@ function App() {
 			<div className='w-10/12 grow'>
 				<Navbar />
 				<Routes>
-					<Route path='/' element={<Home />} />
+					<Route path='/' element={<LeaderBoard />} />
+					<Route path='/language/:languageName' element={<Home />} />
 					<Route
 						path='/test/:testName'
 						element={

@@ -85,9 +85,7 @@ const SignIn = () => {
 								className='block text-sm font-medium text-gray-900'>
 								Password
 							</label>
-							<p className='text-xs'>
-								for testing use: test@test
-							</p>
+							<p className='text-xs'>for testing use: test</p>
 						</div>
 						<input
 							type='password'
