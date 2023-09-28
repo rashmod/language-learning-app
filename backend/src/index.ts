@@ -11,6 +11,7 @@ import QuestionRoutes from './routes/QuestionRoutes';
 import OptionRoutes from './routes/OptionRoutes';
 import TestResultRoutes from './routes/TestResultRoutes';
 import AuthRoutes from './routes/AuthRoutes';
+import UserLanguageRoutes from './routes/UserLanguageRoutes';
 import errorHandler from './middlewares/errorHandler';
 
 declare module 'express-session' {
@@ -82,6 +83,7 @@ app.use(
 	'/api/languages/:languageId/tests/:testId/questions/:questionId/options',
 	OptionRoutes
 );
+app.use('/api/users/:userId/languages', UserLanguageRoutes);
 app.use(
 	'/api/users/:userId/languages/:languageId/tests/:testId/testResults',
 	TestResultRoutes
