@@ -49,18 +49,16 @@ const TestList = () => {
 						(lang) => lang.languageId === languageId
 					)?.languageName
 				}
-				languageId={languageId}
 			/>
 			{testsData.data.map((item) => (
 				<Test
 					key={item.testId}
-					languageId={item.languageId}
 					maxScore={item.maxScore}
 					testId={item.testId}
 					testName={item.testName}
 					languageName={
 						languagesData?.data.find(
-							(lang) => lang.languageId === item.languageId
+							(lang) => lang.languageId === languageId
 						)?.languageName
 					}
 				/>

@@ -3,20 +3,22 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState, useMemo } from 'react';
 import { ChevronRight } from 'lucide-react';
 
-import { getInfiniteQuestions } from '../api/questions';
+import { getInfiniteQuestions } from '../api/infiniteTest';
 import useUnsavedChangesWarning from '../hooks/useUnsavedChangesWarning';
 import { useNavigationState } from '../context/navigationContext';
 import InfiniteQuestionList, {
 	TInfiniteQuestion,
 } from '../components/InfiniteQuestionList';
+import { useGlobalState } from '../context/globalContext';
 
 const realBatchSize = 10;
 const bufferSize = Math.floor(realBatchSize * 0.5); // buffer is half the size of the batch
 let questionBatchSize = realBatchSize + bufferSize;
 
 const InfiniteTestPage = () => {
+	const { languageId, userId } = useGlobalState();
 	const {
-		state: { languageId, testName, languageName },
+		state: { testName, languageName },
 	} = useLocation();
 
 	const [scoreAchieved, setScoreAchieved] = useState(0);
@@ -28,18 +30,14 @@ const InfiniteTestPage = () => {
 		queryKey: ['infinite'],
 		queryFn: () =>
 			getInfiniteQuestions({
+				userId,
 				languageId,
 				scoreAchieved,
 				maxScorePossible,
 				questionBatchSize,
 			}),
-		// onSuccess: () => setShouldFetch(false),
 		enabled: shouldFetch,
 	});
-
-	// useEffect(() => {
-	// 	setShouldFetch(true);
-	// }, []);
 
 	useEffect(() => {
 		questionBatchSize = realBatchSize;

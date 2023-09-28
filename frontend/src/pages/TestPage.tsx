@@ -8,13 +8,15 @@ import QuestionList from '../components/QuestionList';
 import { useNavigationState } from '../context/navigationContext';
 import ConfirmEndTestModal from '../components/ConfirmEndTestModal';
 import { ChevronRight } from 'lucide-react';
+import { useGlobalState } from '../context/globalContext';
 
 const TestPage = () => {
 	const [testScore, setTestScore] = useState(0);
 	const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
 
+	const { languageId } = useGlobalState();
 	const {
-		state: { languageId, testId, testName, languageName },
+		state: { testId, testName, languageName },
 	} = useLocation();
 
 	const {
@@ -45,7 +47,6 @@ const TestPage = () => {
 			{isSubmitModalOpen && (
 				<ConfirmEndTestModal
 					setIsSubmitModalOpen={setIsSubmitModalOpen}
-					languageId={languageId}
 					testId={testId}
 					testScore={testScore}
 				/>

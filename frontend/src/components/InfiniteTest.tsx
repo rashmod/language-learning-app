@@ -2,15 +2,10 @@ import { Link } from 'react-router-dom';
 
 export type TInfiniteTest = {
 	testName: string;
-	languageId: string;
 	languageName: string | undefined;
 };
 
-const InfiniteTest = ({
-	testName,
-	languageId,
-	languageName,
-}: TInfiniteTest) => {
+const InfiniteTest = ({ testName, languageName }: TInfiniteTest) => {
 	return (
 		<div className='flex items-center justify-between px-4 py-2 text-white bg-orange-600 rounded'>
 			<div className='flex flex-col justify-between'>
@@ -19,7 +14,7 @@ const InfiniteTest = ({
 			</div>
 			<Link
 				to={`/test/${testName}`}
-				state={{ languageId, testName, languageName }}
+				state={{ testName, languageName }}
 				className='px-4 py-1 text-white transition-all duration-200 bg-black border border-black rounded hover:text-black hover:bg-white'>
 				Start Test
 			</Link>

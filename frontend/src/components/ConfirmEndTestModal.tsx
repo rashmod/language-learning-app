@@ -5,20 +5,18 @@ import { useNavigate } from 'react-router-dom';
 import toastConfig from '../config/toastConfig';
 import { useMutation } from '@tanstack/react-query';
 import { endTest } from '../api/tests';
+import { useGlobalState } from '../context/globalContext';
 
 const ConfirmEndTestModal = ({
 	setIsSubmitModalOpen,
-	languageId,
 	testId,
 	testScore,
 }: {
 	setIsSubmitModalOpen: Dispatch<SetStateAction<boolean>>;
-	languageId: string;
 	testId: string;
 	testScore: number;
 }) => {
-	// todo change this to dynamic
-	const userId = '503a6783-9ff0-465f-97e6-22b9d87bf452';
+	const { languageId, userId } = useGlobalState();
 
 	const navigate = useNavigate();
 

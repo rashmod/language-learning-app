@@ -42,9 +42,6 @@ const InfiniteQuestion = ({
 	};
 
 	const submitHandler = () => {
-		// console.log('-------------------');
-		// console.log('from submit handler');
-		// console.log('-------------------');
 		if (!checked) return;
 		// todo add score to user language
 		setIsSubmitted(true);

@@ -4,14 +4,12 @@ export type TTest = {
 	testId: string;
 	testName: string;
 	maxScore: number;
-	languageId: string;
 };
 
 const Test = ({
 	testName,
 	maxScore,
 	testId,
-	languageId,
 	languageName,
 }: TTest & { languageName: string | undefined }) => {
 	return (
@@ -22,7 +20,7 @@ const Test = ({
 			</div>
 			<Link
 				to={`/test/${testName}`}
-				state={{ languageId, testId, testName, languageName }}
+				state={{ testId, testName, languageName }}
 				className='px-4 py-1 transition-all duration-200 border rounded hover:text-white hover:bg-black'>
 				Start Test
 			</Link>
