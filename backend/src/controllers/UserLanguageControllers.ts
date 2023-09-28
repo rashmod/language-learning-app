@@ -19,6 +19,7 @@ export const getUserLanguages = async (req: Request, res: Response) => {
 
 	const userLanguages = await prisma.userLanguage.findMany({
 		where: { userId },
+		include: { language: { select: { languageName: true } } },
 	});
 
 	res.status(200).json({
