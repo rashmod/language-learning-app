@@ -2,12 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getTests } from '../api/tests';
 import Test from '../components/Test';
-import { getAllLanguages } from '../api/languages';
+import { getUserLanguages } from '../api/languages';
 import { useGlobalState } from '../context/globalContext';
 import InfiniteTest from '../components/InfiniteTest';
 
 const TestList = () => {
-	const { languageId, setLanguageId } = useGlobalState();
+	const { languageId, setLanguageId, userId } = useGlobalState();
 
 	const {
 		data: testsData,
@@ -19,9 +19,11 @@ const TestList = () => {
 	});
 
 	const { data: languagesData } = useQuery({
-		queryKey: ['languages'],
-		queryFn: getAllLanguages,
+		queryKey: ['languages', userId],
+		queryFn: () => getUserLanguages(userId),
 	});
+
+	console.log(languagesData);
 
 	if (TestsIsLoading) return <h1>Loading...</h1>;
 
@@ -37,7 +39,7 @@ const TestList = () => {
 					onChange={(e) => setLanguageId(e.target.value)}>
 					{languagesData?.data.map((lang) => (
 						<option key={lang.languageId} value={lang.languageId}>
-							{lang.languageName}
+							{lang.language.languageName}
 						</option>
 					))}
 				</select>
@@ -47,7 +49,7 @@ const TestList = () => {
 				languageName={
 					languagesData?.data.find(
 						(lang) => lang.languageId === languageId
-					)?.languageName
+					)?.language.languageName
 				}
 			/>
 			{testsData.data.map((item) => (
@@ -59,7 +61,7 @@ const TestList = () => {
 					languageName={
 						languagesData?.data.find(
 							(lang) => lang.languageId === languageId
-						)?.languageName
+						)?.language.languageName
 					}
 				/>
 			))}
