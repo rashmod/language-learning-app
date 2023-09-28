@@ -17,7 +17,10 @@ export const getUserLanguages = async (
 	userId: string
 ): Promise<{ success: boolean; count: number; data: TUserLanguage[] }> => {
 	const res = await axios.get(
-		`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${userId}/languages`
+		`${
+			import.meta.env.VITE_BACKEND_BASE_URL
+		}/api/users/${userId}/languages`,
+		{ withCredentials: true }
 	);
 	const data = await res.data;
 	return data;
@@ -28,6 +31,9 @@ export type TUserLanguage = {
 	score: number;
 	languageId: string;
 	userId: string;
+	language: {
+		languageName: string;
+	};
 };
 
 export type TLanguage = {
