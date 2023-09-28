@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 
 import { prisma } from '../db/prisma';
-import { DuplicateResourceError, NotFoundError } from '../utilities/Errors';
+import {
+	CustomError,
+	DuplicateResourceError,
+	NotFoundError,
+} from '../utilities/Errors';
 import generateLeaderBoard from '../utilities/generateLeaderBoard';
 
 // @desc Get all users
@@ -76,6 +80,15 @@ export const createUser = async (req: Request, res: Response) => {
 			'A user with this email already exists. Please choose different email address.'
 		);
 
+	const language = await prisma.language.findFirst({
+		where: { languageName: 'English' },
+	});
+
+	if (!language)
+		throw new CustomError(
+			'Something went wrong when onboarding the user. Please contact support.'
+		);
+
 	const hashedPassword = password;
 
 	const user = await prisma.user.create({
@@ -85,7 +98,7 @@ export const createUser = async (req: Request, res: Response) => {
 			hashedPassword,
 			languages: {
 				create: {
-					languageId: '818db7c7-912c-4138-a1ea-163f00f2c3f0',
+					languageId: language.languageId,
 					score: 0,
 				},
 			},

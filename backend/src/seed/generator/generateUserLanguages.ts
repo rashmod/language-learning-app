@@ -5,7 +5,10 @@ import generateTestResults from './generateTestResults';
 
 const generateUserLanguages = async (count: number, userId: string) => {
 	const languages = await prisma.language.findMany();
-	const chosenLanguages = getRandomElements(languages, count);
+	const chosenLanguages = [
+		languages[0],
+		...getRandomElements(languages.slice(1), count),
+	];
 
 	for (let i = 0; i < chosenLanguages.length; i++) {
 		const element = chosenLanguages[i];
