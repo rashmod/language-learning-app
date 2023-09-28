@@ -13,6 +13,7 @@ import LeaderBoard from './pages/LeaderBoard';
 import AuthRoute from './components/AuthRoute';
 import NotFound from './pages/NotFound';
 import TestList from './pages/TestList';
+import InfiniteTestPage from './pages/InfiniteTestPage';
 
 function App() {
 	const { userId, setUserId, languageId, setLanguageId } = useGlobalState();
@@ -55,6 +56,16 @@ function App() {
 							<AuthRoute>
 								<NavigationContextProvider>
 									<TestPage />
+								</NavigationContextProvider>
+							</AuthRoute>
+						}
+					/>
+					<Route
+						path={'/test/Infinity and beyond'}
+						element={
+							<AuthRoute>
+								<NavigationContextProvider>
+									<InfiniteTestPage />
 								</NavigationContextProvider>
 							</AuthRoute>
 						}

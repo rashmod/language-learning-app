@@ -4,6 +4,7 @@ import { getTests } from '../api/tests';
 import Test from '../components/Test';
 import { getAllLanguages } from '../api/languages';
 import { useGlobalState } from '../context/globalContext';
+import InfiniteTest from '../components/InfiniteTest';
 
 const TestList = () => {
 	const { languageId, setLanguageId } = useGlobalState();
@@ -41,6 +42,15 @@ const TestList = () => {
 					))}
 				</select>
 			</div>
+			<InfiniteTest
+				testName='Infinity and beyond'
+				languageName={
+					languagesData?.data.find(
+						(lang) => lang.languageId === languageId
+					)?.languageName
+				}
+				languageId={languageId}
+			/>
 			{testsData.data.map((item) => (
 				<Test
 					key={item.testId}

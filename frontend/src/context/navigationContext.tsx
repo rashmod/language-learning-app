@@ -4,6 +4,7 @@ import {
 	SetStateAction,
 	createContext,
 	useContext,
+	useState,
 } from 'react';
 import useMultiStep from '../hooks/useMultiStep';
 
@@ -11,10 +12,12 @@ type TNavigationContext = {
 	currentStepIndex: number;
 	goToNextPage: () => void;
 	goToPreviousPage: () => void;
-	length: number;
 	isFirstPage: boolean;
 	isLastPage: boolean;
+	length: number;
 	setLength: Dispatch<SetStateAction<number>>;
+	rightOffset: number;
+	setRightOffset: Dispatch<SetStateAction<number>>;
 };
 
 export const NavigationContext = createContext<TNavigationContext | null>(null);
@@ -24,6 +27,8 @@ export function NavigationContextProvider({
 }: {
 	children: ReactElement;
 }) {
+	const [rightOffset, setRightOffset] = useState(0);
+
 	const {
 		currentStepIndex,
 		goToNextPage,
@@ -44,6 +49,8 @@ export function NavigationContextProvider({
 				isLastPage,
 				length,
 				setLength,
+				rightOffset,
+				setRightOffset,
 			}}>
 			{children}
 		</NavigationContext.Provider>
