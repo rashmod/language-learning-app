@@ -12,6 +12,8 @@ type TGlobalContext = {
 	setUserId: Dispatch<SetStateAction<string>>;
 	languageId: string;
 	setLanguageId: Dispatch<SetStateAction<string>>;
+	defaultLanguageId: string;
+	setDefaultLanguageId: Dispatch<SetStateAction<string>>;
 };
 
 export const GlobalContext = createContext<TGlobalContext | null>(null);
@@ -23,6 +25,7 @@ export function GlobalContextProvider({
 }) {
 	const [userId, setUserId] = useState('');
 	const [languageId, setLanguageId] = useState('');
+	const [defaultLanguageId, setDefaultLanguageId] = useState('');
 
 	return (
 		<GlobalContext.Provider
@@ -31,6 +34,8 @@ export function GlobalContextProvider({
 				setUserId,
 				languageId,
 				setLanguageId,
+				defaultLanguageId,
+				setDefaultLanguageId,
 			}}>
 			{children}
 		</GlobalContext.Provider>

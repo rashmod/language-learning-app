@@ -30,8 +30,6 @@ const SignIn = () => {
 	const signUpSuccess = mutation.isSuccess;
 	const userId = mutation.data?.data.userId;
 
-	console.log({ signUpSuccess, userId });
-
 	useEffect(() => {
 		if (signUpSuccess && userId) {
 			navigate('/', { replace: true });

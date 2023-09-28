@@ -31,10 +31,7 @@ const MultiStepComponent = ({
 				<div>
 					<button
 						type='button'
-						onClick={() => {
-							console.log('submitted');
-							submitHandler();
-						}}
+						onClick={submitHandler}
 						className={cn(
 							'border border-gray-600 py-1 px-3 rounded hover:text-white hover:bg-black transition-all duration-200 w-28',
 							{
@@ -48,10 +45,7 @@ const MultiStepComponent = ({
 				<div className='grow'>
 					<button
 						type='button'
-						onClick={() => {
-							goToNextPage();
-							console.log('clicked next page');
-						}}
+						onClick={goToNextPage}
 						disabled={shouldDisableNext}
 						className={cn(
 							'border border-gray-600 py-1 px-3 rounded hover:text-white hover:bg-black transition-all duration-200 w-28',

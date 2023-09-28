@@ -2,6 +2,7 @@ import { Routes, Route, useBeforeUnload } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useCallback } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 import Navbar from './components/Navbar';
 import TestPage from './pages/TestPage';
@@ -14,9 +15,21 @@ import AuthRoute from './components/AuthRoute';
 import NotFound from './pages/NotFound';
 import TestList from './pages/TestList';
 import InfiniteTestPage from './pages/InfiniteTestPage';
+import { getAllLanguages } from './api/languages';
 
 function App() {
-	const { userId, setUserId, languageId, setLanguageId } = useGlobalState();
+	const {
+		userId,
+		setUserId,
+		languageId,
+		setLanguageId,
+		setDefaultLanguageId,
+	} = useGlobalState();
+
+	const { data: languagesData } = useQuery({
+		queryKey: ['languages'],
+		queryFn: getAllLanguages,
+	});
 
 	const beforeUnload = useCallback(() => {
 		if (userId) localStorage.setItem('userId', userId);
@@ -29,12 +42,20 @@ function App() {
 		const localUserId = localStorage.getItem('userId');
 		const localLanguageId = localStorage.getItem('languageId');
 
+		setDefaultLanguageId(languagesData?.data[0].languageId || '');
 		if (!userId && localUserId !== null) setUserId(localUserId);
 		if (!languageId && localLanguageId !== null)
 			setLanguageId(localLanguageId);
 		if (!languageId && !localLanguageId)
-			setLanguageId('7be440ed-2f8f-4c3f-99d0-74492549ce7c');
-	}, [languageId, setLanguageId, userId, setUserId]);
+			setLanguageId(languagesData?.data[0].languageId || '');
+	}, [
+		languageId,
+		setLanguageId,
+		userId,
+		setUserId,
+		languagesData,
+		setDefaultLanguageId,
+	]);
 
 	return (
 		<h1 className='flex flex-col items-center min-h-screen'>
