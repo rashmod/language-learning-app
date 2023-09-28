@@ -11,6 +11,7 @@ import QuestionRoutes from './routes/QuestionRoutes';
 import OptionRoutes from './routes/OptionRoutes';
 import TestResultRoutes from './routes/TestResultRoutes';
 import AuthRoutes from './routes/AuthRoutes';
+import InfiniteTestRoutes from './routes/InfiniteTestRoutes';
 import UserLanguageRoutes from './routes/UserLanguageRoutes';
 import errorHandler from './middlewares/errorHandler';
 
@@ -84,6 +85,10 @@ app.use(
 	OptionRoutes
 );
 app.use('/api/users/:userId/languages', UserLanguageRoutes);
+app.use(
+	'/api/users/:userId/languages/:languageId/tests/infinite',
+	InfiniteTestRoutes
+);
 app.use(
 	'/api/users/:userId/languages/:languageId/tests/:testId/testResults',
 	TestResultRoutes
