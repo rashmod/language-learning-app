@@ -4,8 +4,8 @@ import { prisma } from '../db/prisma';
 import { CustomError, NotFoundError } from '../utilities/Errors';
 import { comparePassword } from '../utilities/passwordUtilities';
 
-// @desc Login user
-// @route POST /api/auth/login
+// @desc sign in user
+// @route POST /api/auth/signIn
 // @access public
 export const signInUser = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
@@ -39,9 +39,9 @@ export const signInUser = async (req: Request, res: Response) => {
 	res.status(200).json({ success: true, data: user });
 };
 
-// @desc Logout user
-// @route GET /api/auth/logout
-// @access private
+// @desc sign out user
+// @route GET /api/auth/signOut
+// @access public
 export const signOutUser = async (req: Request, res: Response) => {
 	req.session.destroy((err) => {
 		if (err) {

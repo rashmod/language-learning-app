@@ -8,12 +8,18 @@ import getRandomElements from '../seed/utilities/getRandomElements';
 // @route GET /api/users/:userId/languages/:languageId/tests/infinite
 // @access user
 export const getInfiniteQuestions = async (req: Request, res: Response) => {
-	const { languageId } = req.params;
+	const { userId, languageId } = req.params;
 	const { scoreAchieved, maxScorePossible, questionBatchSize } = req.query;
 
 	const numberScoreAchieved = Number(scoreAchieved);
 	const numberMaxScorePossible = Number(maxScorePossible);
 	const numberQuestionBatchSize = Number(questionBatchSize);
+
+	const user = await prisma.user.findUnique({
+		where: { userId },
+	});
+
+	if (!user) throw new NotFoundError('The requested user was not found');
 
 	const language = await prisma.language.findUnique({
 		where: { languageId },
@@ -21,6 +27,13 @@ export const getInfiniteQuestions = async (req: Request, res: Response) => {
 
 	if (!language)
 		throw new NotFoundError('The requested language was not found');
+
+	const userLanguage = await prisma.userLanguage.findUnique({
+		where: { userId_languageId: { userId, languageId } },
+	});
+
+	if (!userLanguage)
+		throw new NotFoundError("The requested user's language was not found");
 
 	const percentage = Number(
 		((numberScoreAchieved / numberMaxScorePossible) * 100).toFixed(0)
@@ -123,6 +136,13 @@ export const addInfiniteQuestionResult = async (
 
 	if (!language)
 		throw new NotFoundError('The requested language was not found');
+
+	const userLanguageExist = await prisma.userLanguage.findUnique({
+		where: { userId_languageId: { userId, languageId } },
+	});
+
+	if (!userLanguageExist)
+		throw new NotFoundError("The requested user's language was not found");
 
 	const userLanguage = await prisma.userLanguage.update({
 		where: { userId_languageId: { userId, languageId } },

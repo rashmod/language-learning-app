@@ -21,7 +21,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 	});
 };
 
-// @desc Get all users
+// @desc Get user leader board
 // @route GET /api/users/leaderBoard?languageId='9999999999999999'
 // @access public
 export const getLeaderBoard = async (req: Request, res: Response) => {
