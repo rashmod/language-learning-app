@@ -12,6 +12,9 @@ import shuffle from '../utilities/shuffle';
 import { useNavigationState } from '../context/navigationContext';
 import { TQuestion } from './Question';
 import { TInfiniteQuestion } from './InfiniteQuestionList';
+import { useQuery } from '@tanstack/react-query';
+import { addInfiniteQuestionResult } from '../api/infiniteTest';
+import { useGlobalState } from '../context/globalContext';
 
 const InfiniteQuestion = ({
 	questionId,
@@ -36,6 +39,18 @@ const InfiniteQuestion = ({
 	const [answerIsCorrect, setAnswerIsCorrect] = useState(false);
 
 	const { currentStepIndex, length, rightOffset } = useNavigationState();
+	const { languageId, userId } = useGlobalState();
+
+	useQuery({
+		queryKey: ['infinite', questionId, index],
+		queryFn: () =>
+			addInfiniteQuestionResult({
+				languageId,
+				score: difficulty,
+				userId,
+			}),
+		enabled: isSubmitted,
+	});
 
 	const onSelectHandler = (e: ChangeEvent<HTMLInputElement>) => {
 		if (e.target.checked) setChecked(e.target.value);
@@ -43,7 +58,6 @@ const InfiniteQuestion = ({
 
 	const submitHandler = () => {
 		if (!checked) return;
-		// todo add score to user language
 		setIsSubmitted(true);
 		setQuestions((prev) =>
 			prev.map((item) => {
