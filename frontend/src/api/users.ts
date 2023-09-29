@@ -36,6 +36,27 @@ export const getUserDetails = async (
 	return data;
 };
 
+export const updateUsername = async ({
+	userId,
+	username,
+}: {
+	userId: string;
+	username: string;
+}): Promise<{
+	success: boolean;
+	data: Pick<TUserDetails, 'userId' | 'username'>;
+}> => {
+	const res = await axios.patch(
+		`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${userId}/username`,
+		{ username },
+		{ withCredentials: true }
+	);
+
+	const data = await res.data;
+
+	return data;
+};
+
 export type TUserDetails = {
 	userId: string;
 	username: string;
