@@ -69,7 +69,6 @@ export const getUser = async (req: Request, res: Response) => {
 					score: true,
 				},
 			},
-			testResults: true,
 		},
 	});
 
