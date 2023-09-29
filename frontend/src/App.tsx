@@ -17,6 +17,7 @@ import TestList from './pages/TestList';
 import InfiniteTestPage from './pages/InfiniteTestPage';
 import { getAllLanguages } from './api/languages';
 import ProfilePage from './pages/ProfilePage';
+import EditProfilePage from './pages/EditProfilePage';
 
 function App() {
 	const {
@@ -97,6 +98,14 @@ function App() {
 						element={
 							<AuthRoute>
 								<ProfilePage />
+							</AuthRoute>
+						}
+					/>
+					<Route
+						path={'/me/edit'}
+						element={
+							<AuthRoute>
+								<EditProfilePage />
 							</AuthRoute>
 						}
 					/>

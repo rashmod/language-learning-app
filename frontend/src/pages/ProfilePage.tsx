@@ -4,6 +4,7 @@ import { getUserDetails } from '../api/users';
 import cn from '../utilities/cn';
 import { getTestResults } from '../api/tests';
 import formatDate from '../utilities/formatDate';
+import { Link } from 'react-router-dom';
 
 const ProfilePage = () => {
 	const { userId, languageId, setLanguageId } = useGlobalState();
@@ -27,11 +28,23 @@ const ProfilePage = () => {
 
 	return (
 		<div className='grid gap-4'>
-			<h1 className='mt-4 text-xl font-medium'>Profile</h1>
-			<div className='flex items-center gap-4'>
-				<div className='text-sm text-gray-600'>Username</div>
-				<div className='font-mono text-lg'>
-					{userData.data.username}
+			<div className='flex items-end justify-between'>
+				<h1 className='mt-4 text-xl font-medium'>Profile</h1>
+				<Link
+					to='/me/edit'
+					className='px-4 py-1 transition-all duration-200 border rounded hover:text-white hover:bg-black'>
+					Edit Profile
+				</Link>
+			</div>
+			<div>
+				<div className='flex items-center gap-4'>
+					<div className='text-sm text-gray-600'>Username</div>
+					<div className='font-mono text-lg'>
+						{userData.data.username}
+					</div>
+				</div>
+				<div className='text-sm text-gray-600'>
+					since {formatDate(userData.data.createdAt)}
 				</div>
 			</div>
 			<div className='grid gap-2'>

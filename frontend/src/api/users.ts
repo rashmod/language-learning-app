@@ -36,20 +36,18 @@ export const getUserDetails = async (
 	return data;
 };
 
-type TUserDetails = {
+export type TUserDetails = {
 	userId: string;
 	username: string;
-	email: string;
-	hashedPassword: string;
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt: string;
+	languages: TUserLanguageWithRank[];
+};
 
-	languages: {
-		score: number;
-		rank: number;
-		language: {
-			languageId: string;
-			languageName: string;
-		};
-	}[];
+export type TUserLanguageWithRank = {
+	score: number;
+	rank: number;
+	language: {
+		languageId: string;
+		languageName: string;
+	};
 };
