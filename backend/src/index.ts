@@ -89,10 +89,7 @@ app.use(
 	'/api/users/:userId/languages/:languageId/tests/infinite',
 	InfiniteTestRoutes
 );
-app.use(
-	'/api/users/:userId/languages/:languageId/tests/:testId/testResults',
-	TestResultRoutes
-);
+app.use('/api/users/:userId/languages/:languageId', TestResultRoutes);
 app.use('/api/auth', AuthRoutes);
 
 app.use(errorHandler);

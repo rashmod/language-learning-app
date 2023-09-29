@@ -6,7 +6,7 @@ import { NotFoundError } from '../utilities/Errors';
 // @desc Get all test results of a user of language
 // @route GET /api/users/:userId/languages/:languageId/tests/:testId/testResults
 // @access user
-export const getAllTestResults = async (req: Request, res: Response) => {
+export const getAllTestResultsOfTest = async (req: Request, res: Response) => {
 	const { userId, languageId, testId } = req.params;
 
 	const user = await prisma.user.findUnique({
@@ -29,7 +29,40 @@ export const getAllTestResults = async (req: Request, res: Response) => {
 	if (!test) throw new NotFoundError('The requested test was not found');
 
 	const testResults = await prisma.testResult.findMany({
+		where: { userId, test: { languageId, testId } },
+	});
+
+	res.status(200).json({
+		success: true,
+		count: testResults.length,
+		data: testResults,
+	});
+};
+
+// @desc Get all test results of a user of language
+// @route GET /api/users/:userId/languages/:languageId/testResults
+// @access user
+export const getAllTestResults = async (req: Request, res: Response) => {
+	const { userId, languageId } = req.params;
+
+	const user = await prisma.user.findUnique({
+		where: { userId },
+	});
+
+	if (!user) throw new NotFoundError('The requested user was not found');
+
+	const language = await prisma.language.findUnique({
+		where: { languageId },
+	});
+
+	if (!language)
+		throw new NotFoundError('The requested language was not found');
+
+	const testResults = await prisma.testResult.findMany({
 		where: { userId, test: { languageId } },
+		include: {
+			test: { select: { maxScore: true, testName: true } },
+		},
 	});
 
 	res.status(200).json({
