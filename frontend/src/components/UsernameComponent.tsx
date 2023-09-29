@@ -18,22 +18,25 @@ const UsernameComponent = ({ username }: { username: string }) => {
 	const {
 		register,
 		handleSubmit,
+		reset,
 		watch,
 		formState: { errors },
 	} = useForm({
 		defaultValues: { username },
 	});
 
-	const SubmitHandler = () => {
+	const submitHandler = () => {
 		mutation.mutate({ userId, username: watch('username') });
 		setIsEditing(false);
 	};
 
 	if (isEditing)
 		return (
-			<form className='grid gap-2' onSubmit={handleSubmit(SubmitHandler)}>
+			<form className='grid gap-2' onSubmit={handleSubmit(submitHandler)}>
 				<div className='flex items-center justify-between'>
-					<label className='text-sm text-gray-600'>Username</label>
+					<label className='text-sm text-gray-600' htmlFor='username'>
+						Username
+					</label>
 					<div className='flex gap-2'>
 						<button
 							type='submit'
@@ -45,13 +48,17 @@ const UsernameComponent = ({ username }: { username: string }) => {
 							type='button'
 							disabled={mutation.isLoading}
 							className='px-4 py-1 text-xs transition-all duration-200 border rounded hover:text-white hover:bg-red-600'
-							onClick={() => setIsEditing(false)}>
+							onClick={() => {
+								setIsEditing(false);
+								reset();
+							}}>
 							Cancel
 						</button>
 					</div>
 				</div>
 				<input
 					className='font-mono text-lg font-medium bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-black focus:border-black block w-full p-2.5'
+					id='username'
 					{...register('username', {
 						required: 'Username is required',
 						minLength: {

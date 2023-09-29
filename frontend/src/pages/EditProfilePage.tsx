@@ -25,7 +25,7 @@ const EditProfilePage = () => {
 		<div className='grid gap-8'>
 			<h1 className='mt-4 text-xl font-medium'>Edit Profile</h1>
 			<UsernameComponent username={userData.data.username} />
-			<UserLanguageComponent languages={userData.data.languages} />
+			<UserLanguageComponent userLanguages={userData.data.languages} />
 			<PasswordComponent />
 		</div>
 	);
