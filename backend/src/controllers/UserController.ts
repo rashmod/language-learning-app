@@ -151,7 +151,7 @@ export const createUser = async (req: Request, res: Response) => {
 	res.status(200).json({ success: true, data: user });
 };
 
-// @desc Update user
+// @desc Update user username
 // @route PATCH /api/users/:userId/username
 // @access user
 export const updateUsername = async (req: Request, res: Response) => {
@@ -165,6 +165,54 @@ export const updateUsername = async (req: Request, res: Response) => {
 	const updatedUser = await prisma.user.update({
 		where: { userId },
 		data: { username },
+	});
+
+	res.status(200).json({ success: true, data: updatedUser });
+};
+
+// @desc Update user password
+// @route PATCH /api/users/:userId/password
+// @access user
+export const updatePassword = async (req: Request, res: Response) => {
+	const { userId } = req.params;
+	const { oldPassword, newPassword } = req.body;
+
+	const user = await prisma.user.findUnique({ where: { userId } });
+
+	if (!user) {
+		throw new NotFoundError('The requested user was not found');
+	}
+
+	const isOldPasswordMatch = user.hashedPassword === oldPassword;
+	// const isOldPasswordMatch = await comparePassword(
+	// 	oldPassword,
+	// 	user.hashedPassword
+	// );
+
+	if (!isOldPasswordMatch) {
+		throw new CustomError(
+			'The old password provided does not match the current password associated with this user.',
+			401,
+			'InvalidCredentials'
+		);
+	}
+
+	const isNewPasswordSame = oldPassword === newPassword;
+
+	if (isNewPasswordSame) {
+		throw new CustomError(
+			'The new password cannot be the same as the old password. Please choose a different password.',
+			400,
+			'PasswordUnchanged'
+		);
+	}
+
+	// const hashedPassword = await hashPassword(newPassword);
+
+	const updatedUser = await prisma.user.update({
+		where: { userId },
+		data: { hashedPassword: newPassword },
+		select: { email: true, userId: true, username: true },
 	});
 
 	res.status(200).json({ success: true, data: updatedUser });
