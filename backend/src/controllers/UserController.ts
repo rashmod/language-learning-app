@@ -7,6 +7,7 @@ import {
 	NotFoundError,
 } from '../utilities/Errors';
 import generateLeaderBoard from '../utilities/generateLeaderBoard';
+import findUserRank from '../utilities/findUserRank';
 
 // @desc Get all users
 // @route GET /api/users
@@ -59,12 +60,50 @@ export const getUser = async (req: Request, res: Response) => {
 		where: {
 			userId,
 		},
-		include: { languages: true, testResults: true },
+		include: {
+			languages: {
+				select: {
+					language: {
+						select: { languageName: true, languageId: true },
+					},
+					score: true,
+				},
+			},
+			testResults: true,
+		},
 	});
 
 	if (!user) throw new NotFoundError('The requested user was not found');
 
-	res.status(200).json({ success: true, data: user });
+	const users = await prisma.user.findMany({
+		select: {
+			userId: true,
+			username: true,
+			languages: {
+				select: {
+					languageId: true,
+					proficiencyLevel: true,
+					score: true,
+				},
+			},
+		},
+	});
+
+	const rankedUser = {
+		...user,
+		languages: [...user.languages].map((lang) => ({ ...lang, rank: 0 })),
+	};
+
+	rankedUser.languages.forEach((language) => {
+		const languageLeaderBoard = generateLeaderBoard(
+			users,
+			language.language.languageId
+		);
+		const userRank = findUserRank(languageLeaderBoard, user.userId);
+		language.rank = userRank;
+	});
+
+	res.status(200).json({ success: true, data: rankedUser });
 };
 
 // @desc Create user
