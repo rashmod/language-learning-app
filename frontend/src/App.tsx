@@ -16,6 +16,7 @@ import NotFound from './pages/NotFound';
 import TestList from './pages/TestList';
 import InfiniteTestPage from './pages/InfiniteTestPage';
 import { getAllLanguages } from './api/languages';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
 	const {
@@ -88,6 +89,14 @@ function App() {
 								<NavigationContextProvider>
 									<InfiniteTestPage />
 								</NavigationContextProvider>
+							</AuthRoute>
+						}
+					/>
+					<Route
+						path={'/me'}
+						element={
+							<AuthRoute>
+								<ProfilePage />
 							</AuthRoute>
 						}
 					/>
