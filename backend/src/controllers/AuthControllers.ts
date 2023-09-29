@@ -10,7 +10,15 @@ import { comparePassword } from '../utilities/passwordUtilities';
 export const signInUser = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 
-	const user = await prisma.user.findUnique({ where: { email } });
+	const user = await prisma.user.findUnique({
+		where: { email },
+		select: {
+			userId: true,
+			username: true,
+			email: true,
+			hashedPassword: true,
+		},
+	});
 
 	if (!user) {
 		throw new CustomError(
@@ -36,7 +44,9 @@ export const signInUser = async (req: Request, res: Response) => {
 
 	req.session.user = user;
 
-	res.status(200).json({ success: true, data: user });
+	const { hashedPassword: _, ...safeUser } = user;
+
+	res.status(200).json({ success: true, data: safeUser });
 };
 
 // @desc sign out user
