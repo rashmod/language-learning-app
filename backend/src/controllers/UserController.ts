@@ -60,7 +60,10 @@ export const getUser = async (req: Request, res: Response) => {
 		where: {
 			userId,
 		},
-		include: {
+		select: {
+			username: true,
+			userId: true,
+			createdAt: true,
 			languages: {
 				select: {
 					language: {
@@ -146,4 +149,23 @@ export const createUser = async (req: Request, res: Response) => {
 	req.session.user = user;
 
 	res.status(200).json({ success: true, data: user });
+};
+
+// @desc Update user
+// @route PATCH /api/users/:userId/username
+// @access user
+export const updateUsername = async (req: Request, res: Response) => {
+	const { userId } = req.params;
+	const { username } = req.body;
+
+	const user = await prisma.user.findUnique({ where: { userId } });
+
+	if (!user) throw new NotFoundError('The requested user was not found');
+
+	const updatedUser = await prisma.user.update({
+		where: { userId },
+		data: { username },
+	});
+
+	res.status(200).json({ success: true, data: updatedUser });
 };
