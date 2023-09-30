@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { TUser } from './auth';
 
 export type TLeaderBoard = {
 	userId: string;
@@ -49,6 +50,29 @@ export const updateUsername = async ({
 	const res = await axios.patch(
 		`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${userId}/username`,
 		{ username },
+		{ withCredentials: true }
+	);
+
+	const data = await res.data;
+
+	return data;
+};
+
+export const updatePassword = async ({
+	userId,
+	oldPassword,
+	newPassword,
+}: {
+	userId: string;
+	oldPassword: string;
+	newPassword: string;
+}): Promise<{
+	success: boolean;
+	data: TUser;
+}> => {
+	const res = await axios.patch(
+		`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${userId}/password`,
+		{ oldPassword, newPassword },
 		{ withCredentials: true }
 	);
 

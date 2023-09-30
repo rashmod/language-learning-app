@@ -4,9 +4,6 @@ export type TUser = {
 	userId: string;
 	username: string;
 	email: string;
-	hashedPassword: string;
-	createdAt: string;
-	updatedAt: string;
 };
 
 export type TSignIn = {
