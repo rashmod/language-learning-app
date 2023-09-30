@@ -1,8 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
+
 import { updateUsername } from '../api/users';
 import { useGlobalState } from '../context/globalContext';
+
+export type TUsernameChange = { username: string };
 
 const UsernameComponent = ({ username }: { username: string }) => {
 	const [isEditing, setIsEditing] = useState(false);
@@ -19,14 +22,13 @@ const UsernameComponent = ({ username }: { username: string }) => {
 		register,
 		handleSubmit,
 		reset,
-		watch,
 		formState: { errors },
-	} = useForm({
+	} = useForm<TUsernameChange>({
 		defaultValues: { username },
 	});
 
-	const submitHandler = () => {
-		mutation.mutate({ userId, username: watch('username') });
+	const submitHandler: SubmitHandler<TUsernameChange> = (data) => {
+		mutation.mutate({ userId, username: data.username });
 		setIsEditing(false);
 	};
 

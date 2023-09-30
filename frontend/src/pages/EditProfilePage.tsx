@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getUserDetails } from '../api/users';
 import { useGlobalState } from '../context/globalContext';
-import UsernameComponent from '../components/UsernameComponent';
-import UserLanguageComponent from '../components/UserLanguageComponent';
-import PasswordComponent from '../components/PasswordComponent';
+import UpdateUsername from '../components/UpdateUsername';
+import UpdateUserLanguage from '../components/UpdateUserLanguage';
+import UpdatePassword from '../components/UpdatePassword';
 
 const EditProfilePage = () => {
 	const { userId } = useGlobalState();
@@ -24,9 +24,9 @@ const EditProfilePage = () => {
 	return (
 		<div className='grid gap-8'>
 			<h1 className='mt-4 text-xl font-medium'>Edit Profile</h1>
-			<UsernameComponent username={userData.data.username} />
-			<UserLanguageComponent userLanguages={userData.data.languages} />
-			<PasswordComponent />
+			<UpdateUsername username={userData.data.username} />
+			<UpdateUserLanguage userLanguages={userData.data.languages} />
+			<UpdatePassword />
 		</div>
 	);
 };

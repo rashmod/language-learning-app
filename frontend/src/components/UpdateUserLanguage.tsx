@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { TUserLanguageWithRank } from '../api/users';
 import { addUserLanguage, getAllLanguages } from '../api/languages';
 import { useGlobalState } from '../context/globalContext';
+
+export type TUserLanguageChange = { userLanguage: string };
 
 const UserLanguageComponent = ({
 	userLanguages,
@@ -34,9 +36,8 @@ const UserLanguageComponent = ({
 		register,
 		handleSubmit,
 		reset,
-		watch,
 		formState: { errors },
-	} = useForm<{ userLanguage: string }>();
+	} = useForm<TUserLanguageChange>();
 
 	const languagesToChoose = languagesData?.data.filter((lang) =>
 		userLanguages.every(
@@ -44,9 +45,9 @@ const UserLanguageComponent = ({
 		)
 	);
 
-	const submitHandler = () => {
+	const submitHandler: SubmitHandler<TUserLanguageChange> = (data) => {
 		setIsEditing(false);
-		mutation.mutate({ userId, languageId: watch('userLanguage') });
+		mutation.mutate({ userId, languageId: data.userLanguage });
 	};
 
 	if (languagesIsLoading) return <h1>Loading...</h1>;
