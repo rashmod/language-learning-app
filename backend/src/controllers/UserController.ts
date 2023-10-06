@@ -23,7 +23,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 };
 
 // @desc Get user leader board
-// @route GET /api/users/leaderBoard?languageId='9999999999999999'
+// @route GET /api/users/leaderBoard?languageId=9999999999999999
 // @access public
 export const getLeaderBoard = async (req: Request, res: Response) => {
 	const { language } = req.query;
