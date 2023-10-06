@@ -22,6 +22,7 @@ import EditProfilePage from './pages/EditProfilePage';
 import ErrorToast from './components/ErrorToast';
 import toastConfig from './config/toastConfig';
 import { TApiErrorResponse } from './types/apiErrorResponse';
+import { AuthContextProvider } from './context/authContext';
 
 function App() {
 	const {
@@ -84,7 +85,12 @@ function App() {
 				<Navbar />
 				<Routes>
 					<Route path='/' element={<LeaderBoard />} />
-					<Route element={<AuthRoute />}>
+					<Route
+						element={
+							<AuthContextProvider>
+								<AuthRoute />
+							</AuthContextProvider>
+						}>
 						<Route path='/language' element={<TestList />} />
 						<Route
 							path='/test/:testName'
