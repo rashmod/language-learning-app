@@ -1,10 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { getLeaderBoard } from '../api/users';
 import cn from '../utilities/cn';
 import { getAllLanguages } from '../api/languages';
 import { useGlobalState } from '../context/globalContext';
+import toastConfig from '../config/toastConfig';
+import ErrorToast from '../components/ErrorToast';
+import LoadingComponent from '../components/LoadingComponent';
 
 const LeaderBoard = () => {
 	const { userId } = useGlobalState();
@@ -19,12 +23,25 @@ const LeaderBoard = () => {
 		data: leaderBoardData,
 		isLoading: leaderBoardIsLoading,
 		isError: leaderBoardIsError,
+		error: leaderBoardError,
 	} = useQuery({
 		queryKey: ['leaderBoard', leaderBoard],
 		queryFn: ({ queryKey }) => getLeaderBoard(queryKey[1]),
 	});
 
-	if (leaderBoardIsLoading) return <h1>Loading...</h1>;
+	if (leaderBoardIsError) {
+		const responseData = leaderBoardError?.response?.data;
+
+		toast.error(
+			<ErrorToast
+				title={responseData.error}
+				message={responseData.message}
+			/>,
+			toastConfig
+		);
+	}
+
+	if (leaderBoardIsLoading) return <LoadingComponent />;
 
 	if (leaderBoardIsError) return <h1>Error</h1>;
 

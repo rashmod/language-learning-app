@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { TUser } from './auth';
 
-export const getAllLanguages = async (): Promise<{
-	success: boolean;
+export type TGetAllLanguagesResponse = {
+	success: true;
 	count: number;
 	data: TLanguage[];
-}> => {
+};
+
+export const getAllLanguages = async (): Promise<TGetAllLanguagesResponse> => {
 	const res = await axios.get(
 		`${import.meta.env.VITE_BACKEND_BASE_URL}/api/languages`,
 		{ withCredentials: true }
