@@ -28,11 +28,10 @@ export const signInUser = async (req: Request, res: Response) => {
 		);
 	}
 
-	// const isPasswordMatch = await comparePassword(
-	// 	password,
-	// 	user.hashedPassword
-	// );
-	const isPasswordMatch = password === user.hashedPassword;
+	const isPasswordMatch = await comparePassword(
+		password,
+		user.hashedPassword
+	);
 
 	if (!isPasswordMatch) {
 		throw new CustomError(

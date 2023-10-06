@@ -8,6 +8,7 @@ import {
 } from '../utilities/Errors';
 import generateLeaderBoard from '../utilities/generateLeaderBoard';
 import findUserRank from '../utilities/findUserRank';
+import { comparePassword, hashPassword } from '../utilities/passwordUtilities';
 
 // @desc Get all users
 // @route GET /api/users
@@ -23,7 +24,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 };
 
 // @desc Get user leader board
-// @route GET /api/users/leaderBoard?languageId='9999999999999999'
+// @route GET /api/users/leaderBoard?languageId=9999999999999999
 // @access public
 export const getLeaderBoard = async (req: Request, res: Response) => {
 	const { language } = req.query;
@@ -130,7 +131,7 @@ export const createUser = async (req: Request, res: Response) => {
 			'Something went wrong when onboarding the user. Please contact support.'
 		);
 
-	const hashedPassword = password;
+	const hashedPassword = await hashPassword(password);
 
 	const user = await prisma.user.create({
 		data: {
@@ -183,11 +184,10 @@ export const updatePassword = async (req: Request, res: Response) => {
 		throw new NotFoundError('The requested user was not found');
 	}
 
-	const isOldPasswordMatch = user.hashedPassword === oldPassword;
-	// const isOldPasswordMatch = await comparePassword(
-	// 	oldPassword,
-	// 	user.hashedPassword
-	// );
+	const isOldPasswordMatch = await comparePassword(
+		oldPassword,
+		user.hashedPassword
+	);
 
 	if (!isOldPasswordMatch) {
 		throw new CustomError(
@@ -207,11 +207,11 @@ export const updatePassword = async (req: Request, res: Response) => {
 		);
 	}
 
-	// const hashedPassword = await hashPassword(newPassword);
+	const hashedPassword = await hashPassword(newPassword);
 
 	const updatedUser = await prisma.user.update({
 		where: { userId },
-		data: { hashedPassword: newPassword },
+		data: { hashedPassword },
 		select: { email: true, userId: true, username: true },
 	});
 
