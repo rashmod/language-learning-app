@@ -1,24 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import App from './App.tsx';
 import './index.css';
-import { GlobalContextProvider } from './context/globalContext.tsx';
-
-const queryClient = new QueryClient();
+import AppProvider from './AppProvider';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
-		<BrowserRouter>
-			<QueryClientProvider client={queryClient}>
-				<GlobalContextProvider>
-					<App />
-				</GlobalContextProvider>
-				<ReactQueryDevtools />
-			</QueryClientProvider>
-		</BrowserRouter>
+		<AppProvider />
 	</React.StrictMode>
 );
