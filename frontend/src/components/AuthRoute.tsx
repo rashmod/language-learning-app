@@ -1,18 +1,12 @@
-import { ReactElement } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useGlobalState } from '../context/globalContext';
 
-const AuthRoute = ({ children }: { children: ReactElement }) => {
+const AuthRoute = () => {
 	const { userId } = useGlobalState();
-	const navigate = useNavigate();
 	const location = useLocation();
 
-	if (!userId) {
-		navigate('/sign-in', { state: { location }, replace: true });
-		return;
-	}
-	return children;
+	if (!userId) return <Navigate to='/sign-in' state={location} replace />;
+	else return <Outlet />;
 };
 
 export default AuthRoute;

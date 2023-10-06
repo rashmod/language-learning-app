@@ -19,6 +19,9 @@ import InfiniteTestPage from './pages/InfiniteTestPage';
 import { getAllLanguages } from './api/languages';
 import ProfilePage from './pages/ProfilePage';
 import EditProfilePage from './pages/EditProfilePage';
+import ErrorToast from './components/ErrorToast';
+import toastConfig from './config/toastConfig';
+import { TApiErrorResponse } from './types/apiErrorResponse';
 
 function App() {
 	const {
@@ -29,7 +32,11 @@ function App() {
 		setDefaultLanguageId,
 	} = useGlobalState();
 
-	const { data: languagesData } = useQuery({
+	const {
+		data: languagesData,
+		isError,
+		error,
+	} = useQuery({
 		queryKey: ['languages'],
 		queryFn: getAllLanguages,
 	});
@@ -57,6 +64,19 @@ function App() {
 		const localUserId = localStorage.getItem('userId');
 		if (!userId && localUserId !== null) setUserId(localUserId);
 	}, [userId, setUserId]);
+
+	useEffect(() => {
+		const responseData: TApiErrorResponse = error?.response?.data;
+		if (isError && responseData) {
+			toast.error(
+				<ErrorToast
+					message={responseData.message}
+					title={responseData.error}
+				/>,
+				toastConfig
+			);
+		}
+	}, [error, isError]);
 
 	return (
 		<div className='flex flex-col items-center min-h-screen'>
