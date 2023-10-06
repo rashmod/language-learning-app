@@ -5,6 +5,7 @@ import cn from '../utilities/cn';
 import { getTestResults } from '../api/tests';
 import formatDate from '../utilities/formatDate';
 import { Link } from 'react-router-dom';
+import LoadingComponent from '../components/LoadingComponent';
 
 const ProfilePage = () => {
 	const { userId, languageId, setLanguageId } = useGlobalState();
@@ -17,10 +18,12 @@ const ProfilePage = () => {
 		queryFn: () => getUserDetails(userId),
 	});
 
-	const { data: testResultsData } = useQuery({
-		queryKey: ['user', userId, 'testResults', languageId],
-		queryFn: () => getTestResults({ userId, languageId }),
-	});
+	const { data: testResultsData, isLoading: testResultsIsLoading } = useQuery(
+		{
+			queryKey: ['user', userId, 'testResults', languageId],
+			queryFn: () => getTestResults({ userId, languageId }),
+		}
+	);
 
 	if (userIsLoading) return <h1>Loading...</h1>;
 
@@ -94,6 +97,7 @@ const ProfilePage = () => {
 					</select>
 				</div>
 				<div className='grid gap-4'>
+					{testResultsIsLoading && <LoadingComponent />}
 					{testResultsData?.data.map((result) => (
 						<div
 							key={result.testResultId}
@@ -112,6 +116,9 @@ const ProfilePage = () => {
 							</div>
 						</div>
 					))}
+					{testResultsData?.data.length === 0 && (
+						<div>No tests given for this language</div>
+					)}
 				</div>
 			</div>
 		</div>
