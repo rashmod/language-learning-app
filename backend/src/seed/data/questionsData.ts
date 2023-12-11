@@ -795,6 +795,314 @@ const testData = [
 			},
 		],
 	},
+	{
+		questionText: 'She is allergic ___ cats.',
+		difficulty: 3,
+		options: [
+			{
+				optionText: 'for',
+				isCorrect: false,
+			},
+			{
+				optionText: 'to',
+				isCorrect: true,
+			},
+			{
+				optionText: 'with',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'The concert starts ____ 7 PM.',
+		difficulty: 2,
+		options: [
+			{
+				optionText: 'on',
+				isCorrect: true,
+			},
+			{
+				optionText: 'at',
+				isCorrect: false,
+			},
+			{
+				optionText: 'in',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'I prefer tea ___ coffee.',
+		difficulty: 1,
+		options: [
+			{
+				optionText: 'from',
+				isCorrect: false,
+			},
+			{
+				optionText: 'over',
+				isCorrect: true,
+			},
+			{
+				optionText: 'with',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'The teacher asked me ___ the homework.',
+		difficulty: 4,
+		options: [
+			{
+				optionText: 'to do',
+				isCorrect: true,
+			},
+			{
+				optionText: 'doing',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'I have been waiting for you ____ an hour.',
+		difficulty: 3,
+		options: [
+			{
+				optionText: 'since',
+				isCorrect: true,
+			},
+			{
+				optionText: 'for',
+				isCorrect: false,
+			},
+			{
+				optionText: 'from',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'She is ____ intelligent person.',
+		difficulty: 2,
+		options: [
+			{
+				optionText: 'a',
+				isCorrect: true,
+			},
+			{
+				optionText: 'an',
+				isCorrect: false,
+			},
+			{
+				optionText: 'the',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'I will be there ___ a moment.',
+		difficulty: 3,
+		options: [
+			{
+				optionText: 'in',
+				isCorrect: true,
+			},
+			{
+				optionText: 'on',
+				isCorrect: false,
+			},
+			{
+				optionText: 'at',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'The cat is sitting ___ the table.',
+		difficulty: 4,
+		options: [
+			{
+				optionText: 'above',
+				isCorrect: false,
+			},
+			{
+				optionText: 'over',
+				isCorrect: true,
+			},
+			{
+				optionText: 'on',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'I cannot believe he ___ the whole cake!',
+		difficulty: 5,
+		options: [
+			{
+				optionText: 'eat',
+				isCorrect: false,
+			},
+			{
+				optionText: 'eaten',
+				isCorrect: false,
+			},
+			{
+				optionText: 'ate',
+				isCorrect: true,
+			},
+		],
+	},
+	{
+		questionText: 'The weather is too cold ___ go swimming.',
+		difficulty: 2,
+		options: [
+			{
+				optionText: 'so',
+				isCorrect: true,
+			},
+			{
+				optionText: 'but',
+				isCorrect: false,
+			},
+			{
+				optionText: 'because',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'I have been to Paris, ___ I have never been to London.',
+		difficulty: 4,
+		options: [
+			{
+				optionText: 'or',
+				isCorrect: true,
+			},
+			{
+				optionText: 'and',
+				isCorrect: false,
+			},
+			{
+				optionText: 'but',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'The more you practice, ___ you will become.',
+		difficulty: 5,
+		options: [
+			{
+				optionText: 'the better',
+				isCorrect: true,
+			},
+			{
+				optionText: 'the best',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'He is ___ successful ___ his brother.',
+		difficulty: 3,
+		options: [
+			{
+				optionText: 'as, as',
+				isCorrect: true,
+			},
+			{
+				optionText: 'more, than',
+				isCorrect: false,
+			},
+			{
+				optionText: 'so, as',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'I have read that book ___.',
+		difficulty: 2,
+		options: [
+			{
+				optionText: 'already',
+				isCorrect: true,
+			},
+			{
+				optionText: 'yet',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'My sister and I ___ to the store yesterday.',
+		difficulty: 1,
+		options: [
+			{
+				optionText: 'go',
+				isCorrect: false,
+			},
+			{
+				optionText: 'went',
+				isCorrect: true,
+			},
+			{
+				optionText: 'gone',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'I have never ___ to a jazz concert.',
+		difficulty: 3,
+		options: [
+			{
+				optionText: 'be',
+				isCorrect: false,
+			},
+			{
+				optionText: 'been',
+				isCorrect: true,
+			},
+			{
+				optionText: 'being',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'I cannot find my keys anywhere. They ___ be in the car.',
+		difficulty: 4,
+		options: [
+			{
+				optionText: 'can',
+				isCorrect: false,
+			},
+			{
+				optionText: 'must',
+				isCorrect: true,
+			},
+			{
+				optionText: 'might',
+				isCorrect: false,
+			},
+		],
+	},
+	{
+		questionText: 'The movie was so boring that I fell ___.',
+		difficulty: 5,
+		options: [
+			{
+				optionText: 'sleep',
+				isCorrect: false,
+			},
+			{
+				optionText: 'asleep',
+				isCorrect: true,
+			},
+		],
+	},
 ];
 
 export default testData;
