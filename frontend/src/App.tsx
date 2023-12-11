@@ -42,6 +42,8 @@ function App() {
 		queryFn: getAllLanguages,
 	});
 
+	console.log();
+
 	const beforeUnload = useCallback(() => {
 		if (!userId && !languageId) return;
 		if (userId) localStorage.setItem('userId', userId);
@@ -53,11 +55,17 @@ function App() {
 	useEffect(() => {
 		const localLanguageId = localStorage.getItem('languageId');
 		if (languagesData?.success) {
-			setDefaultLanguageId(languagesData.data[0].languageId || '');
+			setDefaultLanguageId(
+				languagesData.data.find((item) => item.languageId)
+					?.languageId || ''
+			);
 			if (!languageId && localLanguageId !== null)
 				setLanguageId(localLanguageId);
 			if (!languageId && !localLanguageId)
-				setLanguageId(languagesData.data[0].languageId || '');
+				setLanguageId(
+					languagesData.data.find((item) => item.languageId)
+						?.languageId || ''
+				);
 		}
 	}, [languageId, languagesData, setDefaultLanguageId, setLanguageId]);
 
